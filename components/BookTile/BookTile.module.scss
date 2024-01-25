@@ -1,6 +1,5 @@
 .tileWrapper {
   width: 350px;
-  // height: 250px;
   border-radius: 20px;
   display: flex;
   flex-direction: column;
@@ -21,7 +20,7 @@
 .imageContainer {
   height: 540px;
   width: 100%;
-  background-size: cover;
+  background-size: contain;
 }
 
 .titleBox {
@@ -47,12 +46,12 @@
 }
 
 .pylcover {
-  background-size: cover;
+  background-size: contain;
   background-image: url('../pictures/pyl-front-cover.jpg');
 }
 
 .rapidbackend {
-  background-size: cover;
+  background-size: contain;
   background-image: url('../pictures/rbe-cover.jpg');
 }
 

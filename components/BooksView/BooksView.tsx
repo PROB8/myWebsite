@@ -5,7 +5,7 @@ import sharedStyles from '../SharedCss/SharedCss.module.scss';
 import ReturnArrow from '../ReturnArrow/ReturnArrow';
 
 export default function BooksView(): JSX.Element {
-  const { } = styles;
+  const {} = styles;
   const { sectionHeader, viewWrapper } = sharedStyles;
   return (
     <div id="articles">
@@ -28,8 +28,8 @@ const books = [
     publishedDate: 'Jan 1, 2019',
     isBook: true,
     type: 'Book',
-    articleUrl:'/item?item_id=01',
-    price: 20
+    articleUrl: '/item?item_id=01',
+    price: 20,
   },
   {
     title: 'Rapid Back-End',
@@ -39,6 +39,6 @@ const books = [
     articleUrl: '/item?item_id=02',
     type: 'ebook',
     isBook: 'true',
-    price: 14.99
+    price: 14.99,
   },
 ];

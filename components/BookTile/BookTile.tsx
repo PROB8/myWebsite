@@ -3,30 +3,19 @@ import styles from './BookTile.module.scss';
 import Link from 'next/link';
 
 type BookTileProps = {
-    article: {
-        title: string;
-        imageUrl: string;
+  article: {
+    title: string;
+    imageUrl: string;
     articleUrl: string;
-    price?: number
+    price?: number;
   };
 };
 
 export default function BookTile(props: BookTileProps): JSX.Element {
+  const { tileWrapper, title, titleBox, imageContainer, infoWrapper, price } =
+    styles;
   const {
-    tileWrapper,
-    title,
-    titleBox,
-    imageContainer,
-    infoWrapper,
-    price
-  } = styles;
-  const {
-    article: {
-      title: t,
-      imageUrl,
-      articleUrl,
-      price: p
-    },
+    article: { title: t, imageUrl, articleUrl, price: p },
   } = props;
 
   return (
@@ -35,8 +24,8 @@ export default function BookTile(props: BookTileProps): JSX.Element {
       <div className={titleBox}>
         <h2 className={title}>{t}</h2>
         <div className={infoWrapper}>
-            <Button cb={() => console.log('clicking me')} >Add to Cart</Button>
-            <h2 className={price}>${p}</h2>
+          <Button cb={() => console.log('clicking me')}>Add to Cart</Button>
+          <h2 className={price}>${p}</h2>
         </div>
       </div>
     </Link>

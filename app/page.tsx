@@ -11,6 +11,7 @@ import Script from 'next/script';
 import Donate from '@/components/Donate/Donate';
 import ReturnArrow from '@/components/ReturnArrow/ReturnArrow';
 import ArticleTileView from '@/components/ArticleTileView/ArticleTileView';
+import ShoppingCartIcon from '@/components/ShoppingCartIcon/ShoppingCartIcon';
 
 export default function Home() {
   useInfoLog();
@@ -50,6 +51,7 @@ export default function Home() {
       </Script>
       <div id="particles-js" className="particles" />
       <Header setWhichSection={setWhichSection} />
+      <ShoppingCartIcon />
       <Section />
       <Footer />
       <ReturnArrow />

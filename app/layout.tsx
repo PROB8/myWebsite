@@ -1511,7 +1511,11 @@ export default function RootLayout({
               window.pJSDom = [];
               
               window.particlesJS = function(tag_id, params){
-              
+
+              if (window.location.pathname !== "/") {
+                // We don't want to see any errors cause particles isn't loading
+                return;
+              }
               //console.log(params);
               
               /* no string id? so it's object params, and set the id with default id */

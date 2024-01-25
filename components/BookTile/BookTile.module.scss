@@ -1,0 +1,64 @@
+.tileWrapper {
+  width: 350px;
+  height: 250px;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+  text-decoration: none;
+  color: initial;
+}
+
+.tileWrapper:hover {
+  cursor: pointer;
+}
+
+.title {
+  font-size: 16px;
+  min-height: 35px;
+}
+
+.imageContainer {
+  height: 140px;
+  width: 100%;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  background-size: cover;
+}
+
+.titleBox {
+  flex: 1;
+  background-color: #d2d1d1;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  padding: 10px;
+  position: relative;
+}
+
+.infoWrapper {
+  margin-bottom: 0px;
+}
+
+.lengthInMinutes,
+.publishedDate {
+  margin: 0;
+}
+
+.lengthInMinutes {
+  float: left;
+}
+.publishedDate {
+  float: right;
+}
+
+.pylcover {
+  background-size: cover;
+  background-image: url('../pictures/pyl-front-cover.jpg');
+}
+
+.rapidbackend {
+  background-size: cover;
+  background-image: url('../pictures/rapidbackend-cover.png');
+}
+
+

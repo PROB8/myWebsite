@@ -1,6 +1,6 @@
 .tileWrapper {
   width: 350px;
-  height: 250px;
+  // height: 250px;
   border-radius: 20px;
   display: flex;
   flex-direction: column;
@@ -19,18 +19,13 @@
 }
 
 .imageContainer {
-  height: 140px;
+  height: 540px;
   width: 100%;
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
   background-size: cover;
 }
 
 .titleBox {
   flex: 1;
-  background-color: #d2d1d1;
-  border-bottom-left-radius: 20px;
-  border-bottom-right-radius: 20px;
   padding: 10px;
   position: relative;
 }
@@ -58,7 +53,7 @@
 
 .rapidbackend {
   background-size: cover;
-  background-image: url('../pictures/rapidbackend-cover.png');
+  background-image: url('../pictures/rbe-cover.jpg');
 }
 
 

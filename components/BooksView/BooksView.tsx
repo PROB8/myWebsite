@@ -5,8 +5,8 @@ import sharedStyles from '../SharedCss/SharedCss.module.scss';
 import ReturnArrow from '../ReturnArrow/ReturnArrow';
 
 export default function BooksView(): JSX.Element {
-  const { viewWrapper } = styles;
-  const { sectionHeader } = sharedStyles;
+  const { } = styles;
+  const { sectionHeader, viewWrapper } = sharedStyles;
   return (
     <div id="articles">
       <h2 className={sectionHeader}>myBooks</h2>

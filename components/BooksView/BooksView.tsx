@@ -29,6 +29,7 @@ const books = [
     isBook: true,
     type: 'Book',
     articleUrl:'/item?item_id=01',
+    price: 20
   },
   {
     title: 'Rapid Back-End',
@@ -37,6 +38,7 @@ const books = [
     publishedDate: 'Aug 1, 2023',
     articleUrl: '/item?item_id=02',
     type: 'ebook',
-    isBook: 'true'
+    isBook: 'true',
+    price: 14.99
   },
 ];

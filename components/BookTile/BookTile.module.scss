@@ -14,23 +14,29 @@
 
 .title {
   font-size: 16px;
-  min-height: 35px;
+}
+
+.price {
+  text-align: right;
+  margin: 14 0px;
+
 }
 
 .imageContainer {
-  height: 540px;
+  height: 300px;
   width: 100%;
   background-size: contain;
 }
 
 .titleBox {
   flex: 1;
-  padding: 10px;
   position: relative;
 }
 
 .infoWrapper {
   margin-bottom: 0px;
+  display: flex;
+  justify-content: space-between;
 }
 
 .lengthInMinutes,
@@ -46,12 +52,12 @@
 }
 
 .pylcover {
-  background-size: contain;
+  background-size: cover;
   background-image: url('../pictures/pyl-front-cover.jpg');
 }
 
 .rapidbackend {
-  background-size: contain;
+  background-size: cover;
   background-image: url('../pictures/rbe-cover.jpg');
 }
 

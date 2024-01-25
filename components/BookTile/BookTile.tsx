@@ -35,7 +35,7 @@ export default function BookTile(props: BookTileProps): JSX.Element {
       <div className={titleBox}>
         <h2 className={title}>{t}</h2>
         <div className={infoWrapper}>
-            <Button children="Add to Cart" cb={() => console.log('clicking me')} />
+            <Button cb={() => console.log('clicking me')} >Add to Cart</Button>
             <h2 className={price}>${p}</h2>
         </div>
       </div>

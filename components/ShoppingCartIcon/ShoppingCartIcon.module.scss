@@ -1,4 +1,5 @@
-.cartBox {
+.cartLink,
+.cartLink2 {
   position: absolute;
   z-index: 40;
   right: 30px;
@@ -7,6 +8,13 @@
   height: 35px;
   text-align: center;
   color: white;
+  text-decoration: none;
+}
+
+.cartLink2 {
+  position: unset;
+  display: block;
+  padding-bottom: 2px;
 }
 
 .fas {
@@ -16,8 +24,26 @@
   height: 25px;
 }
 
-.numOfItems {
-  position: absolute;
-  top: -25px;
-  right: -4px;
+.numOfItems,
+.numOfItems2 {
+  color: black;
+  font-size: 12px;
+  margin: 0;
+  padding-top: 2px;
+  font-weight: 900;
+}
+
+.numOfItems2 {
+  padding-left: 1px;
+}
+
+.numOfItemsWrapper {
+  width: 20px;
+  height: 20px;
+  position: relative;
+  top: -32px;
+  right: -20px;
+  border-radius: 50%;
+  background-color: white;
+  border: 1px solid black;
 }

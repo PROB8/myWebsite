@@ -2,6 +2,7 @@ import sharedStyles from 'components/SharedCss/SharedCss.module.scss';
 import Home from 'components/Icons/Home';
 import Link from 'next/link';
 import styles from './PageHeader.module.scss';
+import ShoppingCartIcon from '../ShoppingCartIcon/ShoppingCartIcon';
 
 type PageHeaderProps = { headerName: string };
 export default function PageHeader(props: PageHeaderProps): JSX.Element {
@@ -14,6 +15,7 @@ export default function PageHeader(props: PageHeaderProps): JSX.Element {
       <Link href="/" className={size}>
         <Home fill="black" />
       </Link>
+      <ShoppingCartIcon unsetPosition fill="black" />
     </div>
   );
 }

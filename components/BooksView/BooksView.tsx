@@ -3,16 +3,19 @@ import BookTile from '../BookTile/BookTile';
 import sharedStyles from 'components/SharedCss/SharedCss.module.scss';
 import ReturnArrow from 'components/ReturnArrow/ReturnArrow';
 import PageHeader from '../PageHeader/PageHeader';
+import { Book } from '@/types/book';
+import styles from './BooksView.module.scss';
 
 export default function BooksView(): JSX.Element {
   const { viewWrapper } = sharedStyles;
+  const { booksWrapper } = styles;
 
   return (
-    <div id="articles">
+    <div id="books" className={booksWrapper}>
       <PageHeader headerName="myBooks" />
       <div className={viewWrapper}>
         {books.map((a: any) => {
-          return <BookTile article={a} key={a.title} />;
+          return <BookTile book={a} key={a.title} />;
         })}
       </div>
       <ReturnArrow />
@@ -20,25 +23,19 @@ export default function BooksView(): JSX.Element {
   );
 }
 
-const books = [
+const books: Book[] = [
   {
     title: 'Program Your Life: Lessons of a Software Engineer',
     imageUrl: 'pylcover',
-    lengthInMinutes: 0,
-    publishedDate: 'Jan 1, 2019',
-    isBook: true,
-    type: 'Book',
-    articleUrl: '/item?item_id=01',
+    bookUrl: '/item?item_id=01',
     price: 20,
+    id: 1,
   },
   {
     title: 'Rapid Back-End',
     imageUrl: 'rapidbackend',
-    lengthInMinutes: 0,
-    publishedDate: 'Aug 1, 2023',
-    articleUrl: '/item?item_id=02',
-    type: 'ebook',
-    isBook: 'true',
+    bookUrl: '/item?item_id=02',
     price: 14.99,
+    id: 2,
   },
 ];

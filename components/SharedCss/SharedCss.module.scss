@@ -10,13 +10,20 @@
   margin-bottom: 0;
 }
 
-.sectionHeader {
+.sectionHeader,
+.sectionHeader2 {
   font-family: 'Open Sans', sans-serif;
   font-size: 1.6em;
   margin: 0 auto;
   width: 72%;
   border-bottom: 1px solid black;
   margin-bottom: 52px;
+}
+
+.sectionHeader2 {
+  width: 50%;
+  border-bottom: none;
+  margin: 0;
 }
 
 .viewWrapper {
@@ -27,4 +34,12 @@
   margin: auto;
   padding: 10px;
   width: 80%;
+}
+
+.headerWrapper {
+  width: 75%;
+  display: flex;
+  justify-content: space-between;
+  margin: auto;
+  border-bottom: 1px solid black;
 }

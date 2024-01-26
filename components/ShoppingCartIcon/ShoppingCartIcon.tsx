@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 export default function ShoppingCartIcon(): JSX.Element {
   const { cartLink, cartBox, fas, numOfItems } = styles;
-    
+
   return (
     <Link href="/cart" className={cartLink}>
       <div id="cart" className={cartBox}>

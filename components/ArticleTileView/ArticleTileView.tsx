@@ -11,30 +11,6 @@ export default function ArticleTileView(): JSX.Element {
     <div id="articles">
       <h2 className={sectionHeader}>myArticles</h2>
       <div className={viewWrapper}>
-        <ArticleTile
-          article={{
-            title: 'Program Your Life: Lessons of a Software Engineer',
-            imageUrl: 'pylcover',
-            lengthInMinutes: 0,
-            publishedDate: 'Jan 1, 2019',
-            articleUrl:
-              '/interstitial?url=https://www.amazon.com/Program-Your-Life-Naeem-Gitonga/dp/1733442405/ref=sr_1_1?keywords=program+your+life+jaha+naeem+gitonga&qid=1580526523&sr=8-1&where=Amazon',
-            isBook: true,
-            type: 'Book',
-          }}
-        />
-        <ArticleTile
-          article={{
-            title: 'Rapid Back-End',
-            imageUrl: 'rapidbackend',
-            lengthInMinutes: 0,
-            publishedDate: 'Aug 1, 2023',
-            articleUrl:
-              '/interstitial?url=https://rapidbackend.co/&where=Rapid Back-End',
-            isBook: true,
-            type: 'eBook',
-          }}
-        />
         {articles.map((a: any) => {
           return <ArticleTile article={a} key={a.title} />;
         })}

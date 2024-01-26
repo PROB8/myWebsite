@@ -3,13 +3,20 @@ import BookTile from '../BookTile/BookTile';
 import styles from './BooksView.module.scss';
 import sharedStyles from '../SharedCss/SharedCss.module.scss';
 import ReturnArrow from '../ReturnArrow/ReturnArrow';
+import Home from '../Icons/Home';
+import Link from 'next/link';
 
 export default function BooksView(): JSX.Element {
-  const {} = styles;
-  const { sectionHeader, viewWrapper } = sharedStyles;
+  const { size } = styles;
+  const { sectionHeader2, headerWrapper, viewWrapper } = sharedStyles;
   return (
     <div id="articles">
-      <h2 className={sectionHeader}>myBooks</h2>
+      <div className={headerWrapper}>
+        <h2 className={sectionHeader2}>myBooks</h2>
+        <Link href="/" className={size}>
+          <Home fill="black" />
+        </Link>
+      </div>
       <div className={viewWrapper}>
         {books.map((a: any) => {
           return <BookTile article={a} key={a.title} />;

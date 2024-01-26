@@ -1,23 +1,15 @@
 'use client';
 import BookTile from '../BookTile/BookTile';
-import styles from './BooksView.module.scss';
-import sharedStyles from '../SharedCss/SharedCss.module.scss';
-import ReturnArrow from '../ReturnArrow/ReturnArrow';
-import Home from '../Icons/Home';
-import Link from 'next/link';
+import sharedStyles from 'components/SharedCss/SharedCss.module.scss';
+import ReturnArrow from 'components/ReturnArrow/ReturnArrow';
+import PageHeader from '../PageHeader/PageHeader';
 
 export default function BooksView(): JSX.Element {
-  const { size } = styles;
-  const { sectionHeader2, headerWrapper, viewWrapper } = sharedStyles;
+  const { viewWrapper } = sharedStyles;
 
   return (
     <div id="articles">
-      <div className={headerWrapper}>
-        <h2 className={sectionHeader2}>myBooks</h2>
-        <Link href="/" className={size}>
-          <Home fill="black" />
-        </Link>
-      </div>
+      <PageHeader headerName="myBooks" />
       <div className={viewWrapper}>
         {books.map((a: any) => {
           return <BookTile article={a} key={a.title} />;

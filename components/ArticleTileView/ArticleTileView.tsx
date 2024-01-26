@@ -3,13 +3,23 @@ import ArticleTile from '../ArticleTile/ArticleTile';
 import styles from './ArticleTileView.module.scss';
 import sharedStyles from '../SharedCss/SharedCss.module.scss';
 import ReturnArrow from '../ReturnArrow/ReturnArrow';
+import PageHeader from '../PageHeader/PageHeader';
 
-export default function ArticleTileView(): JSX.Element {
+type ArticleTileViewProps = { sharedHeader: boolean };
+
+export default function ArticleTileView(
+  props: ArticleTileViewProps
+): JSX.Element {
+  const { sharedHeader } = props;
   const { viewWrapper } = styles;
   const { sectionHeader } = sharedStyles;
   return (
     <div id="articles">
-      <h2 className={sectionHeader}>myArticles</h2>
+      {sharedHeader ? (
+        <PageHeader headerName="myArticles" />
+      ) : (
+        <h2 className={sectionHeader}>myArticles</h2>
+      )}
       <div className={viewWrapper}>
         {articles.map((a: any) => {
           return <ArticleTile article={a} key={a.title} />;

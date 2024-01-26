@@ -1,4 +1,4 @@
-import Footer from '@/components/Footer/Footer';
+import Footer from 'components/Footer/Footer';
 import '../globals.css';
 
 export default function Item(): JSX.Element {

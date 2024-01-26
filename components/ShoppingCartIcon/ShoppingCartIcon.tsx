@@ -19,6 +19,7 @@ export default function ShoppingCartIcon(
   } = styles;
   const { unsetPosition, fill } = props;
   const [itemQuantity] = useCart();
+  console.log({itemQuantity})
   let cartLinkStyles = cartLink;
   let numOfItemsStyles = numOfItems;
 

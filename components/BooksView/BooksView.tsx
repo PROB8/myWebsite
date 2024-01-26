@@ -9,6 +9,7 @@ import Link from 'next/link';
 export default function BooksView(): JSX.Element {
   const { size } = styles;
   const { sectionHeader2, headerWrapper, viewWrapper } = sharedStyles;
+
   return (
     <div id="articles">
       <div className={headerWrapper}>

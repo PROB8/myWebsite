@@ -1,4 +1,3 @@
-'use client'
 import { Book } from '@/types/book';
 import { useState, SetStateAction, Dispatch } from 'react';
 

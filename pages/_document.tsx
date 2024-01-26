@@ -7,6 +7,7 @@ export default function Document() {
         <link
           href="https://fonts.googleapis.com/css?family=Crimson+Text|Noticia+Text|Open+Sans&display=optional"
           rel="stylesheet"
+          as="style"
         />
       </Head>
       <body>

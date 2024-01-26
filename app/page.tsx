@@ -57,7 +57,7 @@ export default function Home() {
       </Script>
       <div id="particles-js" className="particles" />
       <Header setWhichSection={setWhichSection} />
-      <ShoppingCartIcon />
+      <ShoppingCartIcon unsetPosition={false} fill="white" />
       <Section />
       <Footer />
       <ReturnArrow />

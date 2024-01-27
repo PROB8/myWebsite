@@ -1,10 +1,7 @@
-import addToCart from '@/utils/addToCart';
 import Button from '../Button/Button';
 import styles from './BookTile.module.scss';
 import Link from 'next/link';
 import { Book } from '@/types/book';
-import { Dispatch, SetStateAction } from 'react';
-import CartItem from '@/types/cartItem';
 
 type BookTileProps = {
   book: Book;

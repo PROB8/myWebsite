@@ -2,3 +2,10 @@
   width: 34px;
   height: 30px;
 }
+
+.twoItemWrapper {
+  display: flex;
+  justify-content: space-between;
+  width: 25%;
+  max-width: 100px;
+}

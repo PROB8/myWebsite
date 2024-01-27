@@ -20,7 +20,7 @@ export default function useCart(): [
     const savedCart = window.localStorage.getItem('cart-jng');
     const parsedCart = savedCart ? JSON.parse(savedCart) : [];
     setCart(parsedCart as CartItem[]);
-    const newCount = parsedCart.reduce((prev: number, curr: CartItem[]) => prev + curr.quantity, 0);
+    const newCount = parsedCart.reduce((prev: number, curr: CartItem) => prev + curr.quantity, 0);
       itemCountUpdated.next(newCount);
   }, []);
 

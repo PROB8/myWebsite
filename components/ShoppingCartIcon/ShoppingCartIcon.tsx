@@ -1,8 +1,9 @@
+import { useEffect, useState } from 'react';
 import styles from './ShoppingCartIcon.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
-import useCart from '@/hooks/useCart';
+import{ itemCountUpdated } from '@/hooks/useCart';
 
 type ShoppingCartIconProps = { unsetPosition: boolean; fill: string };
 export default function ShoppingCartIcon(
@@ -18,8 +19,7 @@ export default function ShoppingCartIcon(
     numOfItems2,
   } = styles;
   const { unsetPosition, fill } = props;
-  const [itemQuantity] = useCart();
-  console.log({itemQuantity})
+
   let cartLinkStyles = cartLink;
   let numOfItemsStyles = numOfItems;
 
@@ -27,6 +27,18 @@ export default function ShoppingCartIcon(
     cartLinkStyles = cartLink2;
     numOfItemsStyles = numOfItems2;
   }
+
+  const [itemCount, setItemCount] = useState(0);
+
+  const countUpdatedSubscription = itemCountUpdated.subscribe({
+    next: (count: number) => setItemCount(count),
+  });
+
+  useEffect(() => {
+    return () => {
+      countUpdatedSubscription.unsubscribe();
+    };
+  }, []);
 
   return (
     <Link href="/cart" className={cartLinkStyles}>
@@ -37,7 +49,7 @@ export default function ShoppingCartIcon(
           icon={faCartShopping}
         />
         <div className={numOfItemsWrapper}>
-          <p className={numOfItemsStyles}>{itemQuantity}</p>
+          <p className={numOfItemsStyles}>{itemCount}</p>
         </div>
       </div>
     </Link>

@@ -15,7 +15,7 @@ export default function BookTile(props: BookTileProps): JSX.Element {
   const {
     book: { title: t, imageUrl, bookUrl, price: p },
   } = props;
-  const [_x, _y, _z, addToCart] = useCart();
+  const [_y, _, _d, addToCart] = useCart();
   return (
     <Link href={bookUrl} className={tileWrapper}>
       <div className={`${imageContainer} ${styles[imageUrl]}`} />
@@ -29,3 +29,8 @@ export default function BookTile(props: BookTileProps): JSX.Element {
     </Link>
   );
 }
+
+// itemCountUpdated.next(newCount);
+// import { Subject } from 'rxjs';
+
+// export const itemCountUpdated = new Subject<number>();

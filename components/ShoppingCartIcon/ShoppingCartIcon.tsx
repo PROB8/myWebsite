@@ -3,7 +3,8 @@ import styles from './ShoppingCartIcon.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
-import{ itemCountUpdated } from '@/hooks/useCart';
+import { itemCountUpdated } from '@/hooks/useCart';
+import CartItem from '@/types/cartItem';
 
 type ShoppingCartIconProps = { unsetPosition: boolean; fill: string };
 export default function ShoppingCartIcon(
@@ -27,8 +28,15 @@ export default function ShoppingCartIcon(
     cartLinkStyles = cartLink2;
     numOfItemsStyles = numOfItems2;
   }
-
   const [itemCount, setItemCount] = useState(0);
+  useEffect(()=> {
+    const savedCart = window.localStorage.getItem('cart-jng');
+    const parsedCart = savedCart ? JSON.parse(savedCart) : [];
+    const quantity = parsedCart.reduce((prev: number, curr: CartItem) => prev + curr.quantity, 0);
+    const newCount = quantity > 99 ? 99 : quantity;
+    itemCountUpdated.next(newCount);
+    setItemCount(newCount)
+  },[])
 
   const countUpdatedSubscription = itemCountUpdated.subscribe({
     next: (count: number) => setItemCount(count),
@@ -38,7 +46,7 @@ export default function ShoppingCartIcon(
     return () => {
       countUpdatedSubscription.unsubscribe();
     };
-  }, []);
+  }, [countUpdatedSubscription]);
 
   return (
     <Link href="/cart" className={cartLinkStyles}>

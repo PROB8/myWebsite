@@ -3,19 +3,21 @@ import Button from '../Button/Button';
 import styles from './BookTile.module.scss';
 import Link from 'next/link';
 import { Book } from '@/types/book';
-import useCart from '@/hooks/useCart';
+import { Dispatch, SetStateAction } from 'react';
+import CartItem from '@/types/cartItem';
 
 type BookTileProps = {
   book: Book;
+  addToCart: (arg: Book) => void;
 };
 
 export default function BookTile(props: BookTileProps): JSX.Element {
   const { tileWrapper, title, titleBox, imageContainer, infoWrapper, price } =
     styles;
   const {
+    addToCart,
     book: { title: t, imageUrl, bookUrl, price: p },
   } = props;
-  const [_y, _, _d, addToCart] = useCart();
   return (
     <Link href={bookUrl} className={tileWrapper}>
       <div className={`${imageContainer} ${styles[imageUrl]}`} />
@@ -29,8 +31,3 @@ export default function BookTile(props: BookTileProps): JSX.Element {
     </Link>
   );
 }
-
-// itemCountUpdated.next(newCount);
-// import { Subject } from 'rxjs';
-
-// export const itemCountUpdated = new Subject<number>();

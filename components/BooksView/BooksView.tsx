@@ -5,17 +5,18 @@ import ReturnArrow from 'components/ReturnArrow/ReturnArrow';
 import PageHeader from '../PageHeader/PageHeader';
 import { Book } from '@/types/book';
 import styles from './BooksView.module.scss';
+import useCart from '@/hooks/useCart';
 
 export default function BooksView(): JSX.Element {
   const { viewWrapper } = sharedStyles;
   const { booksWrapper } = styles;
-
+  const [addToCart] = useCart();
   return (
     <div id="books" className={booksWrapper}>
       <PageHeader headerName="myBooks" />
       <div className={viewWrapper}>
         {books.map((a: any) => {
-          return <BookTile book={a} key={a.title} />;
+          return <BookTile book={a} key={a.title} addToCart={addToCart} />;
         })}
       </div>
       <ReturnArrow />

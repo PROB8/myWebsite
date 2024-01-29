@@ -36,7 +36,7 @@ export default function AddToCartMessage(props: AddToCartMessageProps) {
         <Link href="javascript:void(0);" onClick={setModalOpen}>
           Continue Shopping
         </Link>
-        <Link href="/checkout">Checkout</Link>
+        <Link href="/cart">Go to cart</Link>
       </div>
     </div>
   );

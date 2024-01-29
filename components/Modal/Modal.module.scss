@@ -13,8 +13,8 @@
 }
 
 .container {
-  height: 250px;
-  width: 250px;
+  max-height: 300px;
+  max-width: 300px;
   background-color: white;
   position: relative;
   padding: 10px;
@@ -31,8 +31,4 @@
   right: 0;
   width: 30px;
   height: 30px;
-}
-
-.centered-content {
-  /* Your content styling goes here */
 }

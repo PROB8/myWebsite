@@ -6,6 +6,7 @@ import { Book } from '@/types/book';
 type BookTileProps = {
   book: Book;
   addToCart: (arg: Book) => void;
+  openModal: () => void;
 };
 
 export default function BookTile(props: BookTileProps): JSX.Element {
@@ -13,6 +14,7 @@ export default function BookTile(props: BookTileProps): JSX.Element {
     styles;
   const {
     addToCart,
+    openModal,
     book: { title: t, imageUrl, bookUrl, price: p },
   } = props;
   return (
@@ -21,7 +23,14 @@ export default function BookTile(props: BookTileProps): JSX.Element {
       <div className={titleBox}>
         <h2 className={title}>{t}</h2>
         <div className={infoWrapper}>
-          <Button cb={() => addToCart(props.book)}>Add to Cart</Button>
+          <Button
+            cb={() => {
+              addToCart(props.book);
+              openModal();
+            }}
+          >
+            Add to Cart
+          </Button>
           <h2 className={price}>${p}</h2>
         </div>
       </div>

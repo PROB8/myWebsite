@@ -23,7 +23,7 @@ export default function RootLayout({
           href="https://d2j3yisnywcb30.cloudfront.net/pix/favicon.ico"
         />
       </head>
-      <body className={`body`}>
+      <body id="body" className={`body`}>
         {children}
 
         <Script

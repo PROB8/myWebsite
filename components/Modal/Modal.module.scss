@@ -1,6 +1,32 @@
 .modalWrapper {
-    position: absolute;
-    width: 100vw;
-    height: 100vh;
-    color: blue;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #8a8a8aa8;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.container {
+  height: 250px;
+  width: 250px;
+  background-color: white;
+  position: relative;
+}
+
+.closeButton {
+  position: relative;
+  top: 0;
+  right: 0;
+  width: 30px;
+  height: 30px;
+}
+
+.centered-content {
+  /* Your content styling goes here */
 }

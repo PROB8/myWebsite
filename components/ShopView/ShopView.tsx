@@ -1,4 +1,5 @@
 'use client';
+import { useState } from 'react';
 import BookTile from '../BookTile/BookTile';
 import sharedStyles from 'components/SharedCss/SharedCss.module.scss';
 import ReturnArrow from 'components/ReturnArrow/ReturnArrow';
@@ -6,20 +7,34 @@ import PageHeader from '../PageHeader/PageHeader';
 import { Book } from '@/types/book';
 import styles from './ShopView.module.scss';
 import useCart from '@/hooks/useCart';
+import Modal from '../Modal/Modal';
+import useModal from '@/hooks/useModal';
+import AddToCartMessage from '../AddToCartMessage/AddToCartMessage';
 
 export default function ShopView(): JSX.Element {
+  const [isOpen, setModalOpen] = useModal();
+  const [addToCart] = useCart();
   const { viewWrapper } = sharedStyles;
   const { shopWrapper } = styles;
-  const [addToCart] = useCart();
   return (
     <div id="shop" className={shopWrapper}>
       <PageHeader headerName="shop" />
       <div className={viewWrapper}>
         {books.map((a: any) => {
-          return <BookTile book={a} key={a.title} addToCart={addToCart} />;
+          return (
+            <BookTile
+              book={a}
+              key={a.title}
+              addToCart={addToCart}
+              openModal={setModalOpen}
+            />
+          );
         })}
       </div>
       <ReturnArrow />
+      <Modal isOpen={isOpen} setModalOpen={setModalOpen}>
+        <AddToCartMessage setModalOpen={setModalOpen} />
+      </Modal>
     </div>
   );
 }

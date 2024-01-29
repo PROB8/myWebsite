@@ -41,9 +41,9 @@ export default function Header(props: HeaderProps): JSX.Element {
                   myArticles
                 </Link>
               </li>
-              <li id="books-link">
-                <Link href="/books" className={styles.firstUlLink}>
-                  myBooks
+              <li id="shop-link">
+                <Link href="/shop" className={styles.firstUlLink}>
+                  shop
                 </Link>
               </li>
             </ul>

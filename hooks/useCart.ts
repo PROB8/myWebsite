@@ -1,9 +1,5 @@
 import { Book } from '@/types/book';
-import {
-  useState,
-  useCallback,
-  useEffect,
-} from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { Subject } from 'rxjs';
 
 export const itemCountUpdated = new Subject<number>();

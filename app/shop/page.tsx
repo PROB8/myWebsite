@@ -1,11 +1,11 @@
 import Footer from 'components/Footer/Footer';
-import BooksView from 'components/BooksView/BooksView';
+import ShopView from 'components/ShopView/ShopView';
 import '../globals.css';
 
 export default function Books(): JSX.Element {
   return (
     <>
-      <BooksView />
+      <ShopView />
       <Footer />
     </>
   );

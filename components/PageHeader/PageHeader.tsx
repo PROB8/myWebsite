@@ -17,7 +17,6 @@ export default function PageHeader(props: PageHeaderProps): JSX.Element {
           <Home fill="black" />
         </Link>
         <ShoppingCartIcon unsetPosition fill="black" />
-
       </div>
     </div>
   );

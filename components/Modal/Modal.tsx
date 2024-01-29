@@ -10,7 +10,8 @@ type ModalProps = {
 };
 export default function Modal(props: ModalProps): JSX.Element {
   const { isOpen, children, setModalOpen } = props;
-  const { modalWrapper, container, closeButton } = styles;
+  const { modalWrapper, container, closeButton, closeButtonOutterWrapper } =
+    styles;
 
   if (!isOpen) {
     return <></>;
@@ -18,8 +19,10 @@ export default function Modal(props: ModalProps): JSX.Element {
   return (
     <div id="modal" className={modalWrapper}>
       <div className={container}>
-        <div className={closeButton} onClick={setModalOpen}>
-          <XMark fill="grey" />
+        <div className={closeButtonOutterWrapper}>
+          <div className={closeButton} onClick={setModalOpen}>
+            <XMark fill="grey" />
+          </div>
         </div>
         {children as JSX.Element}
       </div>

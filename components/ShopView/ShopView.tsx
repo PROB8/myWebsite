@@ -12,6 +12,7 @@ import useModal from '@/hooks/useModal';
 import AddToCartMessage from '../AddToCartMessage/AddToCartMessage';
 
 export default function ShopView(): JSX.Element {
+  const [lastItemClicked, setLastItemClicked] = useState<Book | null>(null);
   const [isOpen, setModalOpen] = useModal();
   const [addToCart] = useCart();
   const { viewWrapper } = sharedStyles;
@@ -27,13 +28,17 @@ export default function ShopView(): JSX.Element {
               key={a.title}
               addToCart={addToCart}
               openModal={setModalOpen}
+              setLastItemClicked={setLastItemClicked}
             />
           );
         })}
       </div>
       <ReturnArrow />
       <Modal isOpen={isOpen} setModalOpen={setModalOpen}>
-        <AddToCartMessage setModalOpen={setModalOpen} />
+        <AddToCartMessage
+          setModalOpen={setModalOpen}
+          lastItemClicked={lastItemClicked}
+        />
       </Modal>
     </div>
   );

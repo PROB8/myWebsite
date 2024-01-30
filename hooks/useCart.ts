@@ -8,7 +8,11 @@ interface CartItem extends Book {
   quantity: number;
 }
 
-export default function useCart(): [(arg: Book) => void, CartItem[]] {
+export default function useCart(): [
+  (arg: Book) => void,
+  CartItem[],
+  (id: number) => void
+] {
   const [cart, setCart] = useState<CartItem[]>([]);
   const updateCartAndStorage = (newCart: CartItem[]) => {
     window.localStorage.setItem('cart-jng', JSON.stringify(newCart));
@@ -24,10 +28,10 @@ export default function useCart(): [(arg: Book) => void, CartItem[]] {
     updateCartAndStorage(parsedCart);
   }, []);
 
-  const addItem = useCallback((arg: Book) => {
+  const addItem = useCallback((item: Book) => {
     setCart((currentCart) => {
       const existingItemIndex = currentCart.findIndex(
-        (item) => item.id === arg.id
+        (item) => item.id === item.id
       );
       let updatedCart = [...currentCart];
 
@@ -38,12 +42,42 @@ export default function useCart(): [(arg: Book) => void, CartItem[]] {
         };
         updatedCart[existingItemIndex] = updatedItem;
       } else {
-        updatedCart = [...updatedCart, { ...arg, quantity: 1 }];
+        updatedCart = [...updatedCart, { ...item, quantity: 1 }];
       }
       window.localStorage.setItem('cart-jng', JSON.stringify(updatedCart));
       updateCartAndStorage(updatedCart);
       return updatedCart;
     });
   }, []);
-  return [addItem, cart];
+
+  const removeItem = useCallback((id: number) => {
+    setCart((currentCart) => {
+      const existingItemIndex = currentCart.findIndex((item) => item.id === id);
+
+      if (existingItemIndex < 0) {
+        // Item not found in the cart, return the current cart
+        return currentCart;
+      }
+
+      let updatedCart = [...currentCart];
+      const updatedItem = {
+        ...updatedCart[existingItemIndex],
+        quantity: updatedCart[existingItemIndex].quantity - 1,
+      };
+
+      if (updatedItem.quantity <= 0) {
+        // Remove the item from the cart if quantity is 0 or less
+        updatedCart.splice(existingItemIndex, 1);
+      } else {
+        // Update the item in the cart
+        updatedCart[existingItemIndex] = updatedItem;
+      }
+
+      window.localStorage.setItem('cart-jng', JSON.stringify(updatedCart));
+      updateCartAndStorage(updatedCart);
+      return updatedCart;
+    });
+  }, []);
+
+  return [addItem, cart, removeItem];
 }

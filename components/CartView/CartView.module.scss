@@ -1,0 +1,31 @@
+.imageContainer {
+  width: 200px;
+  height: 100%;
+}
+
+.cartItem {
+  margin: 0 10px 50px;
+}
+
+.smallItemPreviewWrapper {
+  height: 200px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  .imageWrapper {
+    width: 200px;
+    height: 200px;
+    .imageContainer {
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+  }
+
+  .itemDescription {
+    max-width: 150px;
+    p {
+      margin: 5px 0px;
+    }
+  }
+}

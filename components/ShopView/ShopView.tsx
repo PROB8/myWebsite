@@ -19,13 +19,13 @@ export default function ShopView(): JSX.Element {
   const { shopWrapper } = styles;
   return (
     <div id="shop" className={shopWrapper}>
-      <PageHeader headerName="shop" />
+      <PageHeader headerName="shop" hideLinks={false} />
       <div className={viewWrapper}>
-        {books.map((a: any) => {
+        {books.map((a: Book) => {
           return (
             <BookTile
               book={a}
-              key={a.title}
+              key={a.id}
               addToCart={addToCart}
               openModal={setModalOpen}
               setLastItemClicked={setLastItemClicked}
@@ -51,6 +51,7 @@ const books: Book[] = [
     bookUrl: '/item?item_id=01',
     price: 20,
     id: 1,
+    description: '',
   },
   {
     title: 'Rapid Back-End',
@@ -58,5 +59,6 @@ const books: Book[] = [
     bookUrl: '/item?item_id=02',
     price: 14.99,
     id: 2,
+    description: '',
   },
 ];

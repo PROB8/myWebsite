@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import styles from './AddToCartMessage.module.scss';
-import imageStyles from 'components/SharedCss/Images.module.scss';
 import { Book } from '@/types/book';
+import SmallItemPreview from '../SmallItemPreview/SmallItemPreview';
 
 type AddToCartMessageProps = {
   setModalOpen: () => void;
@@ -9,34 +9,32 @@ type AddToCartMessageProps = {
 };
 export default function AddToCartMessage(props: AddToCartMessageProps) {
   const { setModalOpen, lastItemClicked } = props;
-  const {
-    continueCheckLinksWrapper,
-    smallItemPreviewWrapper,
-    header,
-    imageContainer,
-    itemDescription,
-  } = styles;
+
+  if (!lastItemClicked) {
+    return null;
+  }
+
+  const { title, price, description, imageUrl } = lastItemClicked;
+  const { continueCheckLinksWrapper, header } = styles;
   return (
     <div>
       <h2 className={header}>You&#39;ve added an item to your cart!</h2>
       {lastItemClicked && (
-        <div className={smallItemPreviewWrapper}>
-          <div
-            className={`${imageContainer} ${
-              imageStyles[lastItemClicked.imageUrl]
-            }`}
-          />
-          <div className={itemDescription}>
-            <p>{lastItemClicked.title}</p>
-            <p>${lastItemClicked.price}</p>
-          </div>
-        </div>
+        <SmallItemPreview
+          styles={styles}
+          title={title}
+          price={price}
+          description={description}
+          imageUrl={imageUrl}
+        />
       )}
       <div className={continueCheckLinksWrapper}>
         <Link href="javascript:void(0);" onClick={setModalOpen}>
           Continue Shopping
         </Link>
-        <Link href="/cart">Go to cart</Link>
+        <Link onClick={setModalOpen} href="/cart">
+          Go to cart
+        </Link>
       </div>
     </div>
   );

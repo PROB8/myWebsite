@@ -31,9 +31,10 @@ export default function useCart(): [
   const addItem = useCallback((item: Book) => {
     setCart((currentCart) => {
       const existingItemIndex = currentCart.findIndex(
-        (item) => item.id === item.id
+        (existingItem) => item.id === existingItem.id
       );
       let updatedCart = [...currentCart];
+      const itemToCopy = {...item}
 
       if (existingItemIndex >= 0) {
         const updatedItem = {
@@ -42,7 +43,7 @@ export default function useCart(): [
         };
         updatedCart[existingItemIndex] = updatedItem;
       } else {
-        updatedCart = [...updatedCart, { ...item, quantity: 1 }];
+        updatedCart = [...updatedCart, { ...itemToCopy, quantity: 1 }];
       }
       window.localStorage.setItem('cart-jng', JSON.stringify(updatedCart));
       updateCartAndStorage(updatedCart);

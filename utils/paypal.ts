@@ -29,7 +29,6 @@ export default async function loadPaypal(
     },
 
     onApprove: function (data: any, actions: any) {
-      console.log('SEE DATA, ', data);
       return actions.order.capture().then(function (orderData: any) {
         // Full available details
         const spinner = document.getElementById('spinner');

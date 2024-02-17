@@ -12,7 +12,6 @@ type CartOptions = {
 export default async function loadPaypal(
   options: CartOptions
 ): Promise<PayPalNamespace | null> {
-  console.log(options);
   document.getElementById('paypal-button-container')?.replaceChildren();
   const buttonOptions = {
     style: {

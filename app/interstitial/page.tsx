@@ -32,6 +32,7 @@ function Interstitial(): JSX.Element {
     </div>
   );
 }
+
 export default function InterstitialPage(): JSX.Element {
   return (
     <Suspense>

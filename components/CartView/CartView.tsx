@@ -35,9 +35,9 @@ export default function CartVeiw(): JSX.Element {
     }
   }, [cart]);
 
-  const { imageContainer } = styles;
+  const { buttonsWrapper, cartWrapper } = styles;
   return (
-    <div id="cart">
+    <div id="cart" className={cart.length === 1 ? cartWrapper : ''}>
       <PageHeader headerName="Cart" hideLinks={true} />
       {cart.map((item: CartItem) => {
         const { title, price, description, imageUrl, id } = item;
@@ -60,7 +60,7 @@ export default function CartVeiw(): JSX.Element {
           </div>
         );
       })}
-      <div id="paypal-button-container"></div>
+      <div id="paypal-button-container" className={buttonsWrapper}></div>
     </div>
   );
 }

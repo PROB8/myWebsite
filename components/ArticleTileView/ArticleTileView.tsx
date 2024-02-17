@@ -16,7 +16,7 @@ export default function ArticleTileView(
   return (
     <div id="articles">
       {sharedHeader ? (
-        <PageHeader headerName="myArticles" />
+        <PageHeader hideLinks={false} headerName="myArticles" />
       ) : (
         <h2 className={sectionHeader}>myArticles</h2>
       )}

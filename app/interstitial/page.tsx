@@ -5,7 +5,7 @@ import { useSearchParams } from 'next/navigation';
 
 import styles from './InterstitialPage.module.scss';
 
-export default function InterstitialPage(): JSX.Element {
+function Interstitial(): JSX.Element {
   const searchParams = useSearchParams();
   const url = searchParams?.get('url');
   const siteName = searchParams?.get('where');
@@ -22,16 +22,20 @@ export default function InterstitialPage(): JSX.Element {
 
     return () => clearTimeout(timer);
   }, [url]);
-
+  return (
+    <div className={styles.page}>
+      <div id="particles-js" className={styles.hide} />
+      <div className={styles.container}>
+        <LoadingDots outerClassName={styles.loaderWrapper} />
+        <h1 className={styles.header}>Now taking you to {siteName}...</h1>
+      </div>
+    </div>
+  );
+}
+export default function InterstitialPage(): JSX.Element {
   return (
     <Suspense>
-      <div className={styles.page}>
-        <div id="particles-js" className={styles.hide} />
-        <div className={styles.container}>
-          <LoadingDots outerClassName={styles.loaderWrapper} />
-          <h1 className={styles.header}>Now taking you to {siteName}...</h1>
-        </div>
-      </div>
+      <Interstitial />
     </Suspense>
   );
 }

@@ -30,7 +30,6 @@ export default async function loadPaypal(
 
     onApprove: function (data: any, actions: any) {
       return actions.order.capture().then(function (orderData: any) {
-        // Full available details
         const spinner = document.getElementById('spinner');
         const payPalButtonContainer = document.getElementById(
           'paypal-button-container'

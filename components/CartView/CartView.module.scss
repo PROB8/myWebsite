@@ -38,3 +38,15 @@
 .cartWrapper {
   height: calc(100vh - 50px);
 }
+
+.objectEnter {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out;
+}
+
+/* Final state of the object, after the 'hidden' class is removed */
+.objectEnterActive {
+  opacity: 1;
+  visibility: visible;
+}

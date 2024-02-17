@@ -8,8 +8,9 @@ interface LoadingDotsProps {
 }
 
 const LoadingDots = (props: LoadingDotsProps) => {
+  const { outerClassName } = props;
   return (
-    <div className={`${styles.loaderContainer} }${props.outerClassName}`}>
+    <div className={`${styles.loaderContainer} ${outerClassName ? outerClassName : ''}`}>
       <div className={`${styles.dot} ${styles.dot1} ${props.dotClassName}`} />
       <div className={`${styles.dot} ${styles.dot2} ${props.dotClassName}`} />
       <div className={`${styles.dot} ${styles.dot3} ${props.dotClassName}`} />

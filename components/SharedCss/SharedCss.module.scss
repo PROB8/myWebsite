@@ -43,3 +43,12 @@
   margin: 0 auto 52px;
   border-bottom: 1px solid black;
 }
+
+.alwaysCentered {
+  position: absolute; /* or 'fixed' if you want it to stay in place on scroll */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 200px; /* Set a specific width */
+  height: 100px; /* Set a specific height */
+}

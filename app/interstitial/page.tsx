@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect } from 'react';
+import React, { Suspense, useEffect } from 'react';
 import LoadingDots from '../../components/LoadingDots/LoadingDots';
 import { useSearchParams } from 'next/navigation';
 
@@ -24,12 +24,14 @@ export default function InterstitialPage(): JSX.Element {
   }, [url]);
 
   return (
-    <div className={styles.page}>
-      <div id="particles-js" className={styles.hide} />
-      <div className={styles.container}>
-        <LoadingDots outerClassName={styles.loaderWrapper} />
-        <h1 className={styles.header}>Now taking you to {siteName}...</h1>
+    <Suspense>
+      <div className={styles.page}>
+        <div id="particles-js" className={styles.hide} />
+        <div className={styles.container}>
+          <LoadingDots outerClassName={styles.loaderWrapper} />
+          <h1 className={styles.header}>Now taking you to {siteName}...</h1>
+        </div>
       </div>
-    </div>
+    </Suspense>
   );
 }

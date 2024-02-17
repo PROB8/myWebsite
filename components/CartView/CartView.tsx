@@ -19,7 +19,10 @@ export default function CartVeiw(): JSX.Element {
         for (let i = 0; i < item.quantity; i++) {
           paypalCart = [
             ...paypalCart,
-            { reference_id: `${item.id}-${i}`, amount: { currency_code: 'USD', value: item.price } },
+            {
+              reference_id: `${item.id}-${i}`,
+              amount: { currency_code: 'USD', value: item.price },
+            },
           ];
         }
       }

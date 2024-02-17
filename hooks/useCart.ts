@@ -34,7 +34,7 @@ export default function useCart(): [
         (existingItem) => item.id === existingItem.id
       );
       let updatedCart = [...currentCart];
-      const itemToCopy = {...item}
+      const itemToCopy = { ...item };
 
       if (existingItemIndex >= 0) {
         const updatedItem = {
@@ -54,7 +54,7 @@ export default function useCart(): [
   const removeItem = useCallback((id: number) => {
     setCart((currentCart) => {
       const existingItemIndex = currentCart.findIndex((item) => item.id === id);
-
+      debugger;
       if (existingItemIndex < 0) {
         // Item not found in the cart, return the current cart
         return currentCart;

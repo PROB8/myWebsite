@@ -14,9 +14,7 @@ export default function CartVeiw(): JSX.Element {
   const [addItem, cart, removeItem] = useCart();
   useEffect(() => {
     if (cart.length) {
-      console.log('IN HERE', cart);
       let paypalCart: PaypalCartItem[] = [];
-
       for (const item of cart) {
         for (let i = 0; i < item.quantity; i++) {
           paypalCart = [
@@ -56,10 +54,10 @@ export default function CartVeiw(): JSX.Element {
               addItem={addItem}
               removeItem={removeItem}
             />
-            <div id="paypal-button-container"></div>
           </div>
         );
       })}
+      <div id="paypal-button-container"></div>
     </div>
   );
 }

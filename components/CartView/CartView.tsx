@@ -68,7 +68,7 @@ export default function CartVeiw(): JSX.Element {
         setShowLoadingDots(false);
       });
     }
-  }, [cart]);
+  }, [cart, cartHeight, clearCart, setModalOpen]);
 
   return (
     <div id="cart" className={`${whichHeight} ${cartWrapper}`}>

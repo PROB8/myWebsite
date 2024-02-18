@@ -1,0 +1,23 @@
+plugins:
+  - serverless-webpack
+  - serverless-plugin-typescript
+  - serverless-prune-plugin
+  - serverless-offline
+service: paypal
+custom:
+  webpack:
+    webpackConfig: webpack.config.js
+provider:
+  name: aws
+  runtime: nodejs18.x
+package:
+  exclude:
+    - '*.sh'
+    - 'README.md'
+functions:
+  paypal:
+    handler: handler.paypal
+    events:
+      - http:
+          path: paypal/{proxy+}
+          method: any

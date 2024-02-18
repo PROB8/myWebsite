@@ -1,6 +1,4 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-    exclude: /backend/,
-};
+const nextConfig = {};
 
 module.exports = nextConfig;

@@ -54,7 +54,6 @@ export default function useCart(): [
   const removeItem = useCallback((id: number) => {
     setCart((currentCart) => {
       const existingItemIndex = currentCart.findIndex((item) => item.id === id);
-      debugger;
       if (existingItemIndex < 0) {
         // Item not found in the cart, return the current cart
         return currentCart;

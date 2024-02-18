@@ -5,9 +5,15 @@
 .continueCheckLinksWrapper {
   display: flex;
   justify-content: space-between;
-  a {
+  a, p {
     text-decoration: none;
     color: grey;
+  }
+  .psuedoLink {
+    margin: 0;
+  }
+  .psuedoLink:hover {
+    cursor: pointer;
   }
 }
 

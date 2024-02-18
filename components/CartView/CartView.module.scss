@@ -5,11 +5,13 @@
 
 .cartItem,
 .buttonsWrapper {
-  margin: 0 10px 50px;
+  margin: 0 0 50px;
 }
 
 .buttonsWrapper {
   margin-bottom: 0;
+  width: 75%;
+  margin: auto;
 }
 
 .smallItemPreviewWrapper {
@@ -49,4 +51,6 @@
 .objectEnterActive {
   opacity: 1;
   visibility: visible;
+  margin: auto;
+  width: 75%;
 }

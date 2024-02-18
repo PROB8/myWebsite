@@ -4,7 +4,7 @@ import '../globals.css';
 export default function Cart(): JSX.Element {
   return (
     <>
-      <div>check out</div>
+      <div>Thank You!</div>
       <Footer />
     </>
   );

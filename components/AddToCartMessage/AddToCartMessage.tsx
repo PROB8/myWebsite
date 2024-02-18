@@ -15,7 +15,7 @@ export default function AddToCartMessage(props: AddToCartMessageProps) {
   }
 
   const { title, price, description, imageUrl } = lastItemClicked;
-  const { continueCheckLinksWrapper, header } = styles;
+  const { continueCheckLinksWrapper, header, psuedoLink } = styles;
   return (
     <div>
       <h2 className={header}>You&#39;ve added an item to your cart!</h2>
@@ -29,9 +29,9 @@ export default function AddToCartMessage(props: AddToCartMessageProps) {
         />
       )}
       <div className={continueCheckLinksWrapper}>
-        <Link href="javascript:void(0);" onClick={setModalOpen}>
+        <p className={psuedoLink} onClick={setModalOpen}>
           Continue Shopping
-        </Link>
+        </p>
         <Link onClick={setModalOpen} href="/cart">
           Go to cart
         </Link>

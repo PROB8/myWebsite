@@ -33,3 +33,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+backend/apis/.env
+backend/apis/coverage
+backend/cdk/.env
+backend/apis/.serverless
+backend/apis/apis/kms-decryption.md

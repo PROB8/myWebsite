@@ -2,6 +2,7 @@ import Link from 'next/link';
 import styles from './AddToCartMessage.module.scss';
 import { Book } from '@/types/book';
 import SmallItemPreview from '../SmallItemPreview/SmallItemPreview';
+import CartItem from '@/types/cartItem';
 
 type AddToCartMessageProps = {
   setModalOpen: () => void;
@@ -22,10 +23,8 @@ export default function AddToCartMessage(props: AddToCartMessageProps) {
       {lastItemClicked && (
         <SmallItemPreview
           styles={styles}
-          title={title}
-          price={price}
-          description={description}
-          imageUrl={imageUrl}
+          item={lastItemClicked as CartItem}
+          showCounter={false}
         />
       )}
       <div className={continueCheckLinksWrapper}>

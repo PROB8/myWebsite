@@ -1,14 +1,14 @@
 import { Book } from '@/types/book';
 import CartItem from '@/types/cartItem';
-import { useState } from 'react';
 
 type CounterInputProps = {
   item: CartItem;
   addItem: (b: Book) => void;
   removeItem: (b: number) => void;
+  style?: string;
 };
 export default function CounterInput(props: CounterInputProps): JSX.Element {
-  const { addItem, removeItem, item } = props;
+  const { addItem, removeItem, item, style } = props;
   const { quantity, id } = item;
   const decrement = () => {
     removeItem(id);
@@ -19,16 +19,9 @@ export default function CounterInput(props: CounterInputProps): JSX.Element {
   };
 
   return (
-    <div>
+    <div className={style}>
       <button onClick={decrement}>-</button>
-      <input
-        type="number"
-        value={quantity}
-        onChange={(e) => {
-          e.preventDefault();
-          console.log(e.target.value);
-        }}
-      />
+      <input type="number" value={quantity} disabled />
       <button onClick={increment}>+</button>
     </div>
   );

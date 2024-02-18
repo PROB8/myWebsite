@@ -30,6 +30,7 @@
   }
 
   .itemDescription {
+    position: relative;
     max-width: 150px;
     p {
       margin: 5px 0px;
@@ -53,4 +54,29 @@
   visibility: visible;
   margin: auto;
   width: 75%;
+}
+
+.quantity {
+  position: absolute;
+  bottom: 0;
+  max-width: 100px;
+  margin: auto;
+  input {
+    max-width: 25%;
+    text-align: center;
+  }
+  button {
+    width: 25%;
+    border: unset;
+    border-radius: 4px;
+    font-size: 16px;
+    color: white;
+    padding: 0;
+    margin: 0 2px;
+    background-color: #bbc7cc;
+  }
+  button:active {
+    /* Change the color when the button is clicked */
+    background-color: #3e4243; /* Change to your desired color */
+  }
 }

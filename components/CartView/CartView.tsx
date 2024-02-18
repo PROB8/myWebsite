@@ -12,12 +12,17 @@ import PaypalCartItem from '@/types/paypalCartItem';
 import LoadingDots from '../LoadingDots/LoadingDots';
 
 export default function CartVeiw(): JSX.Element {
-  const { buttonsWrapper, cartWrapper, objectEnterActive, objectEnter } =
-    styles;
+  const {
+    buttonsWrapper,
+    cartWrapper,
+    objectEnterActive,
+    objectEnter,
+    cartItem,
+  } = styles;
   const { alwaysCentered } = sharedStyles;
   const [addItem, cart, removeItem] = useCart();
   const [showLoadingDots, setShowLoadingDots] = useState(true);
-  const [whichHeight, setWhichHeight] = useState(cartWrapper)
+  const [whichHeight, setWhichHeight] = useState(cartWrapper);
 
   useEffect(() => {
     let paypalCart: PaypalCartItem[] = [];
@@ -40,35 +45,25 @@ export default function CartVeiw(): JSX.Element {
         },
       }).then(() => {
         if (cart.length >= 2) {
-          setWhichHeight('')
+          setWhichHeight('');
         }
         setShowLoadingDots(false);
-
       });
     }
   }, [cart]);
 
   return (
-    <div
-      id="cart"
-      className={whichHeight}
-    >
+    <div id="cart" className={whichHeight}>
       <PageHeader headerName="Cart" hideLinks={true} />
       <div className={showLoadingDots ? objectEnter : objectEnterActive}>
         {cart.map((item: CartItem) => {
-          const { title, price, description, imageUrl, id } = item;
-          const { cartItem } = styles;
+          const { id } = item;
           return (
             <div className={cartItem} key={id}>
               <SmallItemPreview
+                showCounter
                 key={id}
-                title={title}
-                price={price}
-                description={description}
-                imageUrl={imageUrl}
                 styles={styles}
-              />
-              <CounterInput
                 item={item}
                 addItem={addItem}
                 removeItem={removeItem}
@@ -77,7 +72,11 @@ export default function CartVeiw(): JSX.Element {
           );
         })}
       </div>
-      {showLoadingDots && <div className={alwaysCentered}><LoadingDots /></div>}
+      {showLoadingDots && (
+        <div className={alwaysCentered}>
+          <LoadingDots />
+        </div>
+      )}
       <div
         id="paypal-button-container"
         className={

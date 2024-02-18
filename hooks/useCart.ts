@@ -11,7 +11,8 @@ interface CartItem extends Book {
 export default function useCart(): [
   (arg: Book) => void,
   CartItem[],
-  (id: number) => void
+  (id: number) => void,
+  () => void
 ] {
   const [cart, setCart] = useState<CartItem[]>([]);
   const updateCartAndStorage = (newCart: CartItem[]) => {
@@ -79,5 +80,15 @@ export default function useCart(): [
     });
   }, []);
 
-  return [addItem, cart, removeItem];
+  const clearCart = useCallback(() => {
+    setCart(() => {
+      let updatedCart: CartItem[] = [];
+
+      window.localStorage.setItem('cart-jng', JSON.stringify(updatedCart));
+      updateCartAndStorage(updatedCart);
+      return updatedCart;
+    });
+  }, []);
+
+  return [addItem, cart, removeItem, clearCart];
 }

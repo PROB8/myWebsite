@@ -7,12 +7,14 @@ import {
 type CartOptions = {
   onSuccess: () => void;
   purchaseUnits: PaypalCartItem[];
+  clearCart: () => void;
 };
 
 export default async function loadPaypal(
   options: CartOptions
 ): Promise<PayPalNamespace | null> {
   document.getElementById('paypal-button-container')?.replaceChildren();
+  const { onSuccess, clearCart } = options;
   const buttonOptions = {
     style: {
       shape: 'rect',
@@ -29,7 +31,6 @@ export default async function loadPaypal(
 
     onApprove: function (data: any, actions: any) {
       return actions.order.capture().then(function (orderData: any) {
-        const spinner = document.getElementById('spinner');
         const payPalButtonContainer = document.getElementById(
           'paypal-button-container'
         );
@@ -70,27 +71,28 @@ export default async function loadPaypal(
           .then((res) => {
             response = res.json();
             if (res.ok) {
-              const element = document.getElementById('success-message');
-              //@ts-ignore
-              element.innerHTML = `<p class="text-align-left margin-zero-top-50">${orderData.payer.name.given_name}, 
-                    Thank you for your purchase! Please check your email, 
-                    <span class="email">${orderData.payer.email_address}</span> for the link to download your eBook. 
-                    The link is active for <strong class="red">3 DAYS</strong> so act fast and check your spam folder
-                    if you do not see the email in your main inbox.</p>
-                  `;
+              // const element = document.getElementById('success-message');
+              // //@ts-ignore
+              // element.innerHTML = `<p class="text-align-left margin-zero-top-50">${orderData.payer.name.given_name},
+              //       Thank you for your purchase! Please check your email,
+              //       <span class="email">${orderData.payer.email_address}</span> for the link to download your eBook.
+              //       The link is active for <strong class="red">3 DAYS</strong> so act fast and check your spam folder
+              //       if you do not see the email in your main inbox.</p>
+              //     `;
               // hideSpinner();
               return;
             }
             throw new Error('Something broke: Could not send ebook');
           })
           .catch((e) => {
-            const element = document.getElementById('success-message');
-            //@ts-ignore
-            element.innerHTML = `<p class="text-align-left margin-zero-top-50">${orderData.payer.name.given_name}, 
-                  We were not able to send your eBook! Please contact us at gtngbooks@gmail.com and supply the following
-                  orderId: <span class="bold">${orderData.id}</span>!
-                `;
+            // const element = document.getElementById('success-message');
+            // //@ts-ignore
+            // element.innerHTML = `<p class="text-align-left margin-zero-top-50">${orderData.payer.name.given_name},
+            //       We were not able to send your eBook! Please contact us at gtngbooks@gmail.com and supply the following
+            //       orderId: <span class="bold">${orderData.id}</span>!
+            //     `;
             // hideSpinner();
+            onSuccess();
             //@ts-ignore
             console.log(response);
             console.error(e);
@@ -99,13 +101,14 @@ export default async function loadPaypal(
     },
 
     onError: function (err: any) {
-      const element = document.getElementById('success-message');
-      //@ts-ignore
-      element.innerHTML = `<p class="text-align-left margin-zero-top-50">${orderData.payer.name.given_name}, 
-                  We were not able to fulfill your purchase! Please try again!`;
+      // const element = document.getElementById('success-message');
+      // //@ts-ignore
+      // element.innerHTML = `<p class="text-align-left margin-zero-top-50">${orderData.payer.name.given_name},
+      //             We were not able to fulfill your purchase! Please try again!`;
       console.log(err);
     },
   };
+
   let paypal: PayPalNamespace | null = null;
   try {
     paypal = (await loadScript({

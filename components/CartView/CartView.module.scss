@@ -1,5 +1,5 @@
 .imageContainer {
-  width: 200px;
+  width: 185px;
   height: 100%;
 }
 
@@ -38,8 +38,12 @@
   }
 }
 
+.cartHeight {
+  height: calc(100vh - 70px);
+}
+
 .cartWrapper {
-  height: calc(100vh - 50px);
+  padding: 10px;
 }
 
 .objectEnter {
@@ -48,7 +52,6 @@
   transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out;
 }
 
-/* Final state of the object, after the 'hidden' class is removed */
 .objectEnterActive {
   opacity: 1;
   visibility: visible;
@@ -79,4 +82,9 @@
     /* Change the color when the button is clicked */
     background-color: #3e4243; /* Change to your desired color */
   }
+}
+
+.width300Center {
+  width: 300px;
+  text-align: center;
 }

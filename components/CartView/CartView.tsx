@@ -12,11 +12,16 @@ import PaypalCartItem from '@/types/paypalCartItem';
 import LoadingDots from '../LoadingDots/LoadingDots';
 
 export default function CartVeiw(): JSX.Element {
+  const { buttonsWrapper, cartWrapper, objectEnterActive, objectEnter } =
+    styles;
+  const { alwaysCentered } = sharedStyles;
   const [addItem, cart, removeItem] = useCart();
-  const [showLoadingDots, setShowLoadingDots] = useState(true)
-useEffect(() => {
+  const [showLoadingDots, setShowLoadingDots] = useState(true);
+  const [whichHeight, setWhichHeight] = useState(cartWrapper)
+
+  useEffect(() => {
+    let paypalCart: PaypalCartItem[] = [];
     if (cart.length) {
-      let paypalCart: PaypalCartItem[] = [];
       for (const item of cart) {
         for (let i = 0; i < item.quantity; i++) {
           paypalCart = [
@@ -34,15 +39,20 @@ useEffect(() => {
           console.log('i Succeeded');
         },
       }).then(() => {
-        setShowLoadingDots(false)
+        if (cart.length >= 2) {
+          setWhichHeight('')
+        }
+        setShowLoadingDots(false);
+
       });
     }
   }, [cart]);
 
-  const { buttonsWrapper, cartWrapper,objectEnterActive , objectEnter } = styles;
-  const { alwaysCentered } = sharedStyles;
   return (
-    <div id="cart" className={cart.length === 1 || cart.length === 0 ? cartWrapper : ''}>
+    <div
+      id="cart"
+      className={whichHeight}
+    >
       <PageHeader headerName="Cart" hideLinks={true} />
       <div className={showLoadingDots ? objectEnter : objectEnterActive}>
         {cart.map((item: CartItem) => {
@@ -67,10 +77,15 @@ useEffect(() => {
           );
         })}
       </div>
-      <div className={alwaysCentered}>
-        {showLoadingDots && <LoadingDots />}
-      </div>
-      <div id="paypal-button-container"className={showLoadingDots ? `${buttonsWrapper} ${objectEnter}` : `${buttonsWrapper} ${objectEnterActive}`}></div>
+      {showLoadingDots && <div className={alwaysCentered}><LoadingDots /></div>}
+      <div
+        id="paypal-button-container"
+        className={
+          showLoadingDots
+            ? `${buttonsWrapper} ${objectEnter}`
+            : `${buttonsWrapper} ${objectEnterActive}`
+        }
+      ></div>
     </div>
   );
 }

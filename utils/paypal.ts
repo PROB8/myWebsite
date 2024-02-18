@@ -8,13 +8,14 @@ type CartOptions = {
   onSuccess: () => void;
   purchaseUnits: PaypalCartItem[];
   clearCart: () => void;
+  onError: () => void;
 };
 
 export default async function loadPaypal(
   options: CartOptions
 ): Promise<PayPalNamespace | null> {
   document.getElementById('paypal-button-container')?.replaceChildren();
-  const { onSuccess, clearCart } = options;
+  const { onSuccess, onError, clearCart } = options;
   const buttonOptions = {
     style: {
       shape: 'rect',
@@ -50,24 +51,20 @@ export default async function loadPaypal(
         //@ts-ignore
         let response;
         // send pdf
-        fetch(
-          '/api/paypal/order',
-          // 'http://localhost:3000/api/paypal/order',
-          {
-            method: 'POST',
-            mode: 'cors',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            referrerPolicy: 'origin',
-            body: JSON.stringify({
-              email: orderData.payer.email_address,
-              firstName: orderData.payer.name.given_name,
-              lastName: orderData.payer.name.surname,
-              orderData,
-            }),
-          }
-        )
+        fetch(process.env.NEXT_PUBLIC_PAYPAL_API_URL as string, {
+          method: 'POST',
+          mode: 'cors',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          referrerPolicy: 'origin',
+          body: JSON.stringify({
+            email: orderData.payer.email_address,
+            firstName: orderData.payer.name.given_name,
+            lastName: orderData.payer.name.surname,
+            orderData,
+          }),
+        })
           .then((res) => {
             response = res.json();
             if (res.ok) {
@@ -79,7 +76,8 @@ export default async function loadPaypal(
               //       The link is active for <strong class="red">3 DAYS</strong> so act fast and check your spam folder
               //       if you do not see the email in your main inbox.</p>
               //     `;
-              // hideSpinner();
+              onSuccess();
+              payPalButtonContainer?.replaceChildren();
               return;
             }
             throw new Error('Something broke: Could not send ebook');
@@ -92,7 +90,7 @@ export default async function loadPaypal(
             //       orderId: <span class="bold">${orderData.id}</span>!
             //     `;
             // hideSpinner();
-            onSuccess();
+            onError();
             //@ts-ignore
             console.log(response);
             console.error(e);

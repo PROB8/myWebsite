@@ -11,6 +11,7 @@ import PaypalCartItem from '@/types/paypalCartItem';
 import LoadingDots from '../LoadingDots/LoadingDots';
 import Modal from '../Modal/Modal';
 import useModal from '@/hooks/useModal';
+import PaymentResponseMessage from '../PaymentResponseMessage/PaymentResponseMessage';
 
 export default function CartVeiw(): JSX.Element {
   const {
@@ -25,8 +26,9 @@ export default function CartVeiw(): JSX.Element {
   const { alwaysCentered } = sharedStyles;
   const [addItem, cart, removeItem, clearCart] = useCart();
   const [showLoadingDots, setShowLoadingDots] = useState(true);
-  const [whichHeight, setWhichHeight] = useState(cartHeight);
+  const [whichHeight, setWhichHeight] = useState<string>(cartHeight);
   const [isOpen, setModalOpen] = useModal();
+  const [paymentSuccessful, setPaymentSuccessful] = useState(false);
 
   useEffect(() => {
     if (cart.length === 0) {
@@ -48,11 +50,18 @@ export default function CartVeiw(): JSX.Element {
       }
       loadPaypal({
         purchaseUnits: paypalCart,
+        onError: () => {
+          setPaymentSuccessful(false);
+          setModalOpen();
+          setWhichHeight(cartHeight);
+        },
         onSuccess: () => {
+          setPaymentSuccessful(true);
           setModalOpen();
         },
         clearCart,
       }).then(() => {
+        // * adjust cart height to show footer
         if (cart.length >= 2) {
           setWhichHeight('');
         }
@@ -100,7 +109,7 @@ export default function CartVeiw(): JSX.Element {
         }
       ></div>
       <Modal isOpen={isOpen} setModalOpen={setModalOpen}>
-        see this thing
+        <PaymentResponseMessage paymentSuccessful={paymentSuccessful} />
       </Modal>
     </div>
   );

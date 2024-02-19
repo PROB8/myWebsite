@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "lib": ["es2020", "dom", "es2015", "es2017"],
+    "preserveConstEnums": true,
+    "esModuleInterop": true,
+    "allowJs": true,
+    "target": "ES2020",
+    "module": "NodeNext",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "outDir": "lib",
+    "moduleResolution": "nodenext",
+    "typeRoots": ["./node_modules/@types"],
+    "inlineSourceMap": true,
+    "baseUrl": ".",
+    "paths": {
+      "@declarations/*": ["declarations/*.d.ts"]
+    }
+  },
+  "include": ["**/*.ts"],
+  "exclude": [".webpack", "node_modules"]
+}

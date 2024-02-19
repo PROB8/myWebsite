@@ -69,7 +69,7 @@ export default class BackendService extends Construct {
         },
         timeout: Duration.minutes(10),
         code: Code.fromAsset(
-          path.join(__dirname, '../../backend/.serverless/paypal.zip') // * change this filename once you change the service prop in /backend/serverless.yml
+          path.join(__dirname, '../../apis/.serverless/paypal.zip') // * change this filename once you change the service prop in /backend/serverless.yml
         ),
       });
 

@@ -6,7 +6,7 @@ import BackendStack from '../lib/backend-stack';
 config();
 
 const app = new cdk.App();
-new BackendStack(app, 'JNG-Backend-Paypal', {
+new BackendStack(app, `JNG-Backend-Paypal${process.env.NODE_ENV === 'prod' ? '' : '-staging'}`, {
   /* If you don't specify 'env', this stack will be environment-agnostic.
    * Account/Region-dependent features and context lookups will not work,
    * but a single synthesized template can be deployed anywhere. */

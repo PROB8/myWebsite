@@ -105,7 +105,7 @@ export default class PaypalService extends BaseService<Order> {
       emailSendResult = await sendgrid.send({
         to: email,
         from: this.senderEmailAddress,
-        subject: 'Rapid Back-End PDF',
+        subject: `Naeem Gitonga - Order ${orderData.id}`,
         html: emailTemplate(
           link,
           orderData.id,

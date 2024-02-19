@@ -1,4 +1,4 @@
-service: paypal
+service: jngpaypal
 package:
   individually: false
 plugins:

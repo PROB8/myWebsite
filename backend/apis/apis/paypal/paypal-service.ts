@@ -21,6 +21,7 @@ import {
   User,
 } from '@declarations/order';
 import { RouteMap } from '@declarations/routing';
+import { WhichTemplate } from '@declarations/which-email';
 
 config();
 const configuration = { region: 'us-east-1' };
@@ -46,6 +47,12 @@ export default class PaypalService extends BaseService<Order> {
     email: string;
     orderData: PaypalResult;
     affiliateId: string;
+  };
+
+  public productToTemplate = {
+    1: 'pyl',
+    2: 'rb',
+    3: 'consult',
   };
 
   public event: APIGatewayEvent;
@@ -87,11 +94,27 @@ export default class PaypalService extends BaseService<Order> {
     let emailSendResult;
 
     try {
+      const [boughtPyl, boughtRb, boughtConsult] = this.whichEmail(
+        orderData.purchase_units
+      );
+
+      if (boughtConsult) {
+        //Todo: Write code to fetch one-time link from calendly
+      }
+
       emailSendResult = await sendgrid.send({
         to: email,
         from: this.senderEmailAddress,
         subject: 'Rapid Back-End PDF',
-        html: emailTemplate(link, orderData.id, firstName),
+        html: emailTemplate(
+          link,
+          orderData.id,
+          firstName,
+          boughtPyl,
+          boughtRb,
+          boughtConsult,
+          ''
+        ),
       });
       console.log('Email sent successfully:');
     } catch (e) {
@@ -213,5 +236,28 @@ export default class PaypalService extends BaseService<Order> {
     );
 
     return formatUrl(signedUrlObject);
+  }
+
+  whichEmail(purchaseUnits: PaypalResult['purchase_units']): WhichTemplate {
+    const boughtMap = {
+      pyl: false,
+      rb: false,
+      consult: false,
+    };
+
+    purchaseUnits.forEach((curr, i) => {
+      const id = parseInt(curr.reference_id.split('-')[0]);
+      boughtMap[this.productToTemplate[id]] = true;
+    });
+
+    return [
+      boughtMap.pyl,
+      boughtMap.rb,
+      boughtMap.consult,
+    ];
+  }
+
+  async fetchCalendlySchedulingLink(): Promise<string> {
+    return '';
   }
 }

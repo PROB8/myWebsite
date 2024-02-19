@@ -10,6 +10,7 @@ custom:
   serverless-offline:
     resourceRoutes: true
     useSeparateProcesses: true
+    httpPort: 4000
 provider:
   name: aws
   runtime: nodejs18.x

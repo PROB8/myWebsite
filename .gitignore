@@ -38,3 +38,4 @@ backend/apis/coverage
 backend/cdk/.env
 backend/apis/.serverless
 backend/apis/apis/kms-decryption.md
+backend/apis/.webpack

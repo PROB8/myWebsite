@@ -55,8 +55,7 @@ export default async function loadPaypal(
           method: 'POST',
           mode: 'cors',
           headers: {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*'
+            'Content-Type': 'application/json'
           },
           referrerPolicy: 'origin',
           body: JSON.stringify({

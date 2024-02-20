@@ -1,9 +1,0 @@
-{
-    "rewrites": [
-      {
-        "source": "/api/paypal/order",
-        "destination": "https://www.this-is-a-dummy-url.com"
-      }
-    ]
-  }
-  

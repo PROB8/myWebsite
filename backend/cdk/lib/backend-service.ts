@@ -25,12 +25,18 @@ export default class BackendService extends Construct {
 
     const functions: { [s: string]: Function } = {};
 
-    const functionNames = ['Paypal'];
+    const functionNames = [`JngPaypal${process.env.NODE_ENV === 'prod' ? '' : '-staging'}`];
 
     const rapidbackendBucket = Bucket.fromBucketName(
       this,
       'RapidBackEndBucket',
       'rapidbackend'
+    );
+
+    const jngwebsiteBucket = Bucket.fromBucketName(
+      this,
+      'JngWebsiteBucket',
+      'jahanaeemgitongawebsite'
     );
 
     // * create dead letter queue for lambda
@@ -46,6 +52,7 @@ export default class BackendService extends Construct {
 
     const environment: { [s: string]: {} } = {
       all: {
+        WHICH_ROUTE: process.env.WHICH_ROUTE as string,
         NODE_ENV: process.env.NODE_ENV as string,
         STAGE: process.env.STAGE as string,
         CLIENT_ID: process.env.CLIENT_ID as string,
@@ -53,34 +60,46 @@ export default class BackendService extends Construct {
         ACCESS_KEY_ID: process.env.ACCESS_KEY_ID as string,
         SECRET_ACCESS_KEY: process.env.SECRET_ACCESS_KEY as string,
         DEAD_LETTER_QUEUE_URL: deadLetterQueue.queueUrl,
-        SEND_GRID_API_KEY: process.env.SEND_GRID_API_KEY,
+        SEND_GRID_API_KEY: process.env.SEND_GRID_API_KEY as string,
+        CALENDLY_API_ACCESS_TOKEN: process.env.CALENDLY_API_ACCESS_TOKEN as string
       },
     };
 
     functionNames.forEach((name: string) => {
       const nameLowerCased = name.toLowerCase();
+      const nameWithoutStage = nameLowerCased.split('-')[0];
+      console.log({nameLowerCased, name, nameWithoutStage})
       const lambda = new Function(this, name, {
         functionName: nameLowerCased,
         runtime: Runtime.NODEJS_18_X,
-        handler: `handler.${nameLowerCased}`,
+        handler: 'handler.paypal',
         environment: {
-          ...(environment[nameLowerCased] && environment[nameLowerCased]),
+          ...(environment[nameWithoutStage] && environment[nameWithoutStage]),
           ...environment.all,
         },
         timeout: Duration.minutes(10),
         code: Code.fromAsset(
-          path.join(__dirname, '../../apis/.serverless/paypal.zip') // * change this filename once you change the service prop in /backend/serverless.yml
+          path.join(__dirname, '../../apis/.serverless/jngpaypal.zip') // * change this filename once you change the service prop in /backend/serverless.yml
         ),
       });
 
       rapidbackendBucket.grantRead(lambda);
-      const policyStatement = new PolicyStatement({
+      jngwebsiteBucket.grantRead(lambda)
+
+      const policyStatementRb = new PolicyStatement({
         sid: 'S3GetObject',
         actions: ['s3:GetObject', 's3:PutObject', 's3:ListBucket'],
         resources: ['arn:aws:s3:::rapidbackend', 'arn:aws:s3:::rapidbackend/*'],
       });
 
-      lambda.addToRolePolicy(policyStatement);
+      const policyStatementJng = new PolicyStatement({
+        sid: 'S3GetObjectJng',
+        actions: ['s3:GetObject', 's3:PutObject', 's3:ListBucket'],
+        resources: ['arn:aws:s3:::jahanaeemgitongawebsite', 'arn:aws:s3:::jahanaeemgitongawebsite/*'],
+      });
+      
+      lambda.addToRolePolicy(policyStatementRb);
+      lambda.addToRolePolicy(policyStatementJng);
       lambda.addToRolePolicy(sqsPermission);
       functions[nameLowerCased] = lambda;
     });
@@ -99,14 +118,14 @@ export default class BackendService extends Construct {
         ],
       },
     };
-
-    if (deployStage) {
-      conditions = {
-        IpAddress: {
-          'aws:SourceIp': [process.env.IP_ADDRESS], // * add your ip address here. make sure that you have the correct ip address or you will see something like this {"Message":"User: anonymous is not authorized to perform: execute-api:Invoke on resource: arn:aws:execute-api:us-east-1:********6173:1crdeqdfq4/prod/GET/api/lambdaa"}
-        },
-      };
-    }
+console.log('SEE NODE ENV ========>',process.env.NODE_ENV)
+    // if (deployStage || process.env.NODE_ENV === 'staging') {
+    //   conditions = {
+    //     IpAddress: {
+    //       'aws:SourceIp': [process.env.IP_ADDRESS], // * add your ip address here. make sure that you have the correct ip address or you will see something like this {"Message":"User: anonymous is not authorized to perform: execute-api:Invoke on resource: arn:aws:execute-api:us-east-1:********6173:1crdeqdfq4/prod/GET/api/lambdaa"}
+    //     },
+    //   };
+    // }
 
     const apiResourcePolicy = new PolicyDocument({
       statements: [
@@ -114,19 +133,19 @@ export default class BackendService extends Construct {
           effect: Effect.ALLOW,
           principals: [new StarPrincipal()],
           actions: ['execute-api:Invoke'],
-          resources: ['arn:aws:execute-api:*:*:*/prod/POST/api/paypal/order'],
+          resources: [`arn:aws:execute-api:*:*:*/prod/POST/api/jngpaypal${process.env.NODE_ENV === 'prod' ? '' : '-staging'}/order`],
           conditions,
         }),
       ],
     });
 
     // * create log group for backend api gateway logs
-    const prdLogGroup = new LogGroup(this, 'paypal-backend-log-group', {
-      logGroupName: 'paypal-backend-log-group',
+    const prdLogGroup = new LogGroup(this, 'jng-backend-log-group', {
+      logGroupName: `jng-backend-log-group${process.env.NODE_ENV === 'prod' ? '' : '-staging'}`,
     });
 
-    const api = new LambdaRestApi(this, 'paypal-backend-api-gateway', {
-      handler: functions.paypal,
+    const api = new LambdaRestApi(this, `jng-backend-api-gateway${process.env.NODE_ENV === 'prod' ? '' : '-staging'}`, {
+      handler: functions[`jngpaypal${process.env.NODE_ENV === 'prod' ? '' : '-staging'}`],
       proxy: false,
       deployOptions: {
         stageName: '',

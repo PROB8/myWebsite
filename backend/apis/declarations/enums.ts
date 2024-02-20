@@ -29,5 +29,6 @@ export enum LambdaBRoutes {
 }
 
 export enum PaypalRoutes {
-  order = '/api/paypal/order',
+  order = '/api/jngpaypal/order',
+  orderstaging = '/api/jngpaypal-staging/order',
 }

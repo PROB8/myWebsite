@@ -81,7 +81,7 @@ export default async function loadPaypal(
               return;
             }
             console.log({res})
-            throw new Error('Something broke: payment not collected');
+            throw new Error('Something broke: order cannot be sent');
           })
           .catch((e) => {
             // const element = document.getElementById('success-message');

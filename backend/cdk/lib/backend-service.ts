@@ -109,12 +109,12 @@ export default class BackendService extends Construct {
     let conditions: any = {
       StringEquals: {
         'aws:Referer': [
-          'https://www.jahanaeemgitonga.co/*',
-          'https://www.jahanaeemgitonga.co/',
-          'https://jahanaeemgitonga.co/',
-          'https://jahanaeemgitonga.co/*',
-          'https://staging.jahanaeemgitonga.co/*',
-          'https://staging.jahanaeemgitonga.co/',
+          'https://www.jahanaeemgitonga.com/*',
+          'https://www.jahanaeemgitonga.com/',
+          'https://jahanaeemgitonga.com/',
+          'https://jahanaeemgitonga.com/*',
+          'https://staging.jahanaeemgitonga.com/*',
+          'https://staging.jahanaeemgitonga.com/',
         ],
       },
     };

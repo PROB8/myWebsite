@@ -65,7 +65,7 @@ export default async function loadPaypal(
             orderData,
           }),
         })
-          .then((res) => {
+          .then((res: any) => {
             response = res.json();
             if (res.ok) {
               // const element = document.getElementById('success-message');
@@ -80,7 +80,8 @@ export default async function loadPaypal(
               payPalButtonContainer?.replaceChildren();
               return;
             }
-            throw new Error('Something broke: Could not send ebook');
+            console.log({res})
+            throw new Error('Something broke: payment not collected');
           })
           .catch((e) => {
             // const element = document.getElementById('success-message');

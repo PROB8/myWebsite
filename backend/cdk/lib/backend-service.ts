@@ -111,6 +111,8 @@ export default class BackendService extends Construct {
         'aws:Referer': [
           'https://www.jahanaeemgitonga.com/*',
           'https://www.jahanaeemgitonga.com/',
+          'https://www.staging.jahanaeemgitonga.com/*',
+          'https://www.staging.jahanaeemgitonga.com/',
           'https://jahanaeemgitonga.com/',
           'https://jahanaeemgitonga.com/*',
           'https://staging.jahanaeemgitonga.com/*',

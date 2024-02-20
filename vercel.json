@@ -1,0 +1,26 @@
+{
+    "rewrites": [
+      {
+        "source": "/(-staiging)/:path*",
+        "destination": "https://v31cry0jw5.execute-api.us-east-1.amazonaws.com/prod/api/jngpaypal-staging/order",
+        "has": [
+            {
+              "type": "header",
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            }
+          ]
+      },
+      {
+        "source": "/api/jngpaypal/order",
+        "destination": "https://v31cry0jw5.execute-api.us-east-1.amazonaws.com/prod/api/jngpaypal-staging/order",
+        "has": [
+            {
+              "type": "header",
+              "key": "Access-Control-Allow-Origin",
+              "value": "*"
+            }
+          ]
+      }
+    ]
+  }

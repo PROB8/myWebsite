@@ -35,22 +35,18 @@ export default async function loadPaypal(
         const payPalButtonContainer = document.getElementById(
           'paypal-button-container'
         );
-
        
-        // showSpinner();
-        //@ts-ignore
-        let response;
         // send pdf
         fetch(process.env.NEXT_PUBLIC_PAYPAL_API_URL as string, {
           method: 'POST',
           mode: 'cors',
-          headers: {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Methods': 'POST,OPTIONS',
-            'Access-Control-Allow-Credentials': 'true',
-            'Access-Control-Allow-Headers': '*'
-          },
+          // headers: {
+          //   'Content-Type': 'application/json',
+          //   'Access-Control-Allow-Origin': '*',
+          //   'Access-Control-Allow-Methods': 'POST,OPTIONS',
+          //   'Access-Control-Allow-Credentials': 'true',
+          //   'Access-Control-Allow-Headers': '*'
+          // },
           referrerPolicy: 'origin',
           body: JSON.stringify({
             email: orderData.payer.email_address,
@@ -61,7 +57,7 @@ export default async function loadPaypal(
         })
           .then((res: any) => {
             console.log('123 ',{res})
-            response = res.json();
+            const response = res.json();
             if (res.ok) {
               //TODO:       Thank you for your purchase! Please check your email,
               onSuccess();

@@ -43,7 +43,7 @@ export default async function loadPaypal(
         // send pdf
         fetch(process.env.NEXT_PUBLIC_PAYPAL_API_URL as string, {
           method: 'POST',
-          mode: 'no-cors',
+          mode: 'cors',
           headers: {
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*',

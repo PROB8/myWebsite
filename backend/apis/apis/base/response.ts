@@ -15,7 +15,8 @@ export default function response(
       ? {
           'Access-Control-Allow-Origins': '*',
           'Access-Control-Allow-Headers': '*',
-          'Access-Control-Allow-Methods': 'POST',
+          'Access-Control-Allow-Methods': 'POST,OPTIONS',
+          'Access-Control-Allow-Credentials': 'true'
         }
       : {}),
     ...headers,

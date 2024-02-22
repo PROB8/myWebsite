@@ -36,17 +36,7 @@ export default async function loadPaypal(
           'paypal-button-container'
         );
 
-        // Function to show the spinner
-        // function showSpinner() {
-        //   payPalButtonContainer.style.display = 'none';
-        //   spinner.style.display = 'block';
-        // }
-
-        // // Function to hide the spinner
-        // function hideSpinner() {
-        //   spinner.style.display = 'none';
-        // }
-
+       
         // showSpinner();
         //@ts-ignore
         let response;
@@ -55,7 +45,8 @@ export default async function loadPaypal(
           method: 'POST',
           mode: 'cors',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'
           },
           referrerPolicy: 'origin',
           body: JSON.stringify({
@@ -66,16 +57,10 @@ export default async function loadPaypal(
           }),
         })
           .then((res: any) => {
+            console.log(res)
             response = res.json();
             if (res.ok) {
-              // const element = document.getElementById('success-message');
-              // //@ts-ignore
-              // element.innerHTML = `<p class="text-align-left margin-zero-top-50">${orderData.payer.name.given_name},
-              //       Thank you for your purchase! Please check your email,
-              //       <span class="email">${orderData.payer.email_address}</span> for the link to download your eBook.
-              //       The link is active for <strong class="red">3 DAYS</strong> so act fast and check your spam folder
-              //       if you do not see the email in your main inbox.</p>
-              //     `;
+              //TODO:       Thank you for your purchase! Please check your email,
               onSuccess();
               payPalButtonContainer?.replaceChildren();
               return;
@@ -84,26 +69,17 @@ export default async function loadPaypal(
             throw new Error('Something broke: order cannot be sent');
           })
           .catch((e) => {
-            // const element = document.getElementById('success-message');
-            // //@ts-ignore
-            // element.innerHTML = `<p class="text-align-left margin-zero-top-50">${orderData.payer.name.given_name},
-            //       We were not able to send your eBook! Please contact us at gtngbooks@gmail.com and supply the following
+            //     Todo:   We were not able to send your eBook! Please contact us at gtngbooks@gmail.com and supply the following
             //       orderId: <span class="bold">${orderData.id}</span>!
             //     `;
-            // hideSpinner();
             onError();
-            //@ts-ignore
-            console.log(response);
             console.error(e);
           });
       });
     },
 
     onError: function (err: any) {
-      // const element = document.getElementById('success-message');
-      // //@ts-ignore
-      // element.innerHTML = `<p class="text-align-left margin-zero-top-50">${orderData.payer.name.given_name},
-      //             We were not able to fulfill your purchase! Please try again!`;
+      //TODO:             We were not able to fulfill your purchase! Please try again!`;
       console.log(err);
     },
   };

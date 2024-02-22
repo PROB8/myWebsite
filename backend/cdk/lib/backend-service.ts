@@ -104,7 +104,7 @@ export default class BackendService extends Construct {
       functions[nameLowerCased] = lambda;
     });
 
-    const deployStage = process.env.DEPLOY_STAGE;
+    // const deployStage = process.env.DEPLOY_STAGE; //? I May bring this back to conditionally set the condition to use my IP Address
 
     let conditions: any = {
       StringEquals: {
@@ -119,15 +119,11 @@ export default class BackendService extends Construct {
           'https://staging.jahanaeemgitonga.com/',
         ],
       },
+      // IpAddress: {
+      //   'aws:SourceIp': [process.env.IP_ADDRESS], // * add your ip address here. make sure that you have the correct ip address or you will see something like this {"Message":"User: anonymous is not authorized to perform: execute-api:Invoke on resource: arn:aws:execute-api:us-east-1:********6173:1crdeqdfq4/prod/GET/api/lambdaa"}
+      //  },
     };
-console.log('SEE NODE ENV ========>',process.env.NODE_ENV)
-    // if (deployStage || process.env.NODE_ENV === 'staging') {
-    //   conditions = {
-    //     IpAddress: {
-    //       'aws:SourceIp': [process.env.IP_ADDRESS], // * add your ip address here. make sure that you have the correct ip address or you will see something like this {"Message":"User: anonymous is not authorized to perform: execute-api:Invoke on resource: arn:aws:execute-api:us-east-1:********6173:1crdeqdfq4/prod/GET/api/lambdaa"}
-    //     },
-    //   };
-    // }
+
 
     const apiResourcePolicy = new PolicyDocument({
       statements: [
@@ -135,7 +131,7 @@ console.log('SEE NODE ENV ========>',process.env.NODE_ENV)
           effect: Effect.ALLOW,
           principals: [new StarPrincipal()],
           actions: ['execute-api:Invoke'],
-          resources: [`arn:aws:execute-api:*:*:*/prod/POST/api/jngpaypal${process.env.NODE_ENV === 'prod' ? '' : '-staging'}/order`],
+          resources: [`arn:aws:execute-api:*:*:*/prod/*/api/jngpaypal${process.env.NODE_ENV === 'prod' ? '' : '-staging'}/order`],
           conditions,
         }),
       ],
@@ -158,9 +154,10 @@ console.log('SEE NODE ENV ========>',process.env.NODE_ENV)
       },
       policy: apiResourcePolicy,
       defaultCorsPreflightOptions: {
+        allowCredentials: true,
         allowOrigins: ['*'],
         allowHeaders: ['*'],
-        allowMethods: ['POST'],
+        allowMethods: ['POST', 'OPTIONS'],
       },
     });
 

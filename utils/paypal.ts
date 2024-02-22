@@ -60,7 +60,7 @@ export default async function loadPaypal(
           }),
         })
           .then((res: any) => {
-            console.log(res)
+            console.log('123 ',{res})
             response = res.json();
             if (res.ok) {
               //TODO:       Thank you for your purchase! Please check your email,

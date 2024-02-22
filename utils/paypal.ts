@@ -44,13 +44,6 @@ export default async function loadPaypal(
         fetch(process.env.NEXT_PUBLIC_PAYPAL_API_URL as string, {
           method: 'POST',
           mode: 'cors',
-          headers: {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': 'https://jahanaeemgitonga.com,https://staging.jahanaeemgitonga.com',
-            'Access-Control-Allow-Methods': 'POST,OPTIONS',
-            'Access-Control-Allow-Credentials': 'true',
-            'Access-Control-Allow-Headers': '*'
-          },
           referrerPolicy: 'origin',
           body: JSON.stringify({
             email: orderData.payer.email_address,

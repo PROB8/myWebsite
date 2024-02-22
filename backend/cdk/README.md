@@ -53,3 +53,14 @@ $ which cdk
 
 Eventhough I had installed the latest, the version of cdk that was being used was on my node 18 version (tied to it)
 I needed to remove that and install it fresh.
+
+
+### CORS
+Since you are using Vercel you need to configure your HEADERS for CORS in
+three places. 
+
+1. `vercel.json`
+2. in CDK 
+3. In the response of your API
+
+All three have to match. If they don't you will get CORS errors

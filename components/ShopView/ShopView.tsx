@@ -34,7 +34,7 @@ export default function ShopView(): JSX.Element {
         })}
       </div>
       <ReturnArrow />
-      <Modal isOpen={isOpen} setModalOpen={setModalOpen}>
+      <Modal isOpen={isOpen} setModalOpen={setModalOpen} hideClose={false}>
         <AddToCartMessage
           setModalOpen={setModalOpen}
           lastItemClicked={lastItemClicked}

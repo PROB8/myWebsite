@@ -4,12 +4,13 @@ import styles from './Modal.module.scss';
 import XMark from '../Icons/XMark';
 
 type ModalProps = {
+  hideClose: boolean,
   isOpen: boolean;
   children: unknown;
   setModalOpen: () => void;
 };
 export default function Modal(props: ModalProps): JSX.Element {
-  const { isOpen, children, setModalOpen } = props;
+  const { isOpen, children, setModalOpen, hideClose } = props;
   const { modalWrapper, container, closeButton, closeButtonOutterWrapper } =
     styles;
 
@@ -20,9 +21,9 @@ export default function Modal(props: ModalProps): JSX.Element {
     <div id="modal" className={modalWrapper}>
       <div className={container}>
         <div className={closeButtonOutterWrapper}>
-          <div className={closeButton} onClick={setModalOpen}>
+          {!hideClose && <div className={closeButton} onClick={setModalOpen}>
             <XMark fill="grey" />
-          </div>
+          </div>}
         </div>
         {children as JSX.Element}
       </div>

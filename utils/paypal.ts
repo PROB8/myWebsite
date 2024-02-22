@@ -4,7 +4,10 @@ import {
   PayPalNamespace,
   loadScript,
 } from '@paypal/paypal-js';
+import { Dispatch, SetStateAction } from 'react';
 type CartOptions = {
+  setLodingModalIsOpen: Dispatch<SetStateAction<boolean>>;
+  setModalOpen: () => void;
   onSuccess: () => void;
   purchaseUnits: PaypalCartItem[];
   clearCart: () => void;
@@ -15,7 +18,7 @@ export default async function loadPaypal(
   options: CartOptions
 ): Promise<PayPalNamespace | null> {
   document.getElementById('paypal-button-container')?.replaceChildren();
-  const { onSuccess, onError, clearCart } = options;
+  const { onSuccess, onError, clearCart, setLodingModalIsOpen, setModalOpen } = options;
   const buttonOptions = {
     style: {
       shape: 'rect',
@@ -36,17 +39,11 @@ export default async function loadPaypal(
           'paypal-button-container'
         );
        
-        // send pdf
+        setLodingModalIsOpen(true)
+        setModalOpen()
         fetch(process.env.NEXT_PUBLIC_PAYPAL_API_URL as string, {
           method: 'POST',
           mode: 'cors',
-          // headers: {
-          //   'Content-Type': 'application/json',
-          //   'Access-Control-Allow-Origin': '*',
-          //   'Access-Control-Allow-Methods': 'POST,OPTIONS',
-          //   'Access-Control-Allow-Credentials': 'true',
-          //   'Access-Control-Allow-Headers': '*'
-          // },
           referrerPolicy: 'origin',
           body: JSON.stringify({
             email: orderData.payer.email_address,
@@ -56,29 +53,30 @@ export default async function loadPaypal(
           }),
         })
           .then((res: any) => {
-            console.log('123 ',{res})
             const response = res.json();
             if (res.ok) {
+              setLodingModalIsOpen(false)
               //TODO:       Thank you for your purchase! Please check your email,
               onSuccess();
               payPalButtonContainer?.replaceChildren();
               return;
             }
-            console.log({res})
+            console.log({response})
             throw new Error('Something broke: order cannot be sent');
           })
           .catch((e) => {
             console.log("IN HERE")
+            onError()
             //     Todo:   We were not able to send your eBook! Please contact us at gtngbooks@gmail.com and supply the following
-            //       orderId: <span class="bold">${orderData.id}</span>!
-            //     `;
-            onError();
+       
+            setLodingModalIsOpen(false)
             console.error(e);
           });
       });
     },
 
     onError: function (err: any) {
+      onError()
       //TODO:             We were not able to fulfill your purchase! Please try again!`;
       console.log(err);
     },

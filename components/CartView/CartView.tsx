@@ -22,13 +22,15 @@ export default function CartVeiw(): JSX.Element {
     objectEnter,
     cartItem,
     width300Center,
+    raiseBtns,
   } = styles;
   const { alwaysCentered } = sharedStyles;
   const [addItem, cart, removeItem, clearCart] = useCart();
   const [showLoadingDots, setShowLoadingDots] = useState(true);
   const [whichHeight, setWhichHeight] = useState<string>(cartHeight);
-  const [isOpen, setModalOpen] = useModal();
   const [paymentSuccessful, setPaymentSuccessful] = useState(false);
+  const [loadingModalIsOpen, setLodingModalIsOpen] = useState(false)
+  const [isOpen, setModalOpen] = useModal();
 
   useEffect(() => {
     if (cart.length === 0) {
@@ -49,15 +51,16 @@ export default function CartVeiw(): JSX.Element {
         }
       }
       loadPaypal({
+        setLodingModalIsOpen,
+        setModalOpen,
+
         purchaseUnits: paypalCart,
         onError: () => {
-          setPaymentSuccessful(false);
-          setModalOpen();
           setWhichHeight(cartHeight);
         },
         onSuccess: () => {
+          setLodingModalIsOpen(false)
           setPaymentSuccessful(true);
-          setModalOpen();
         },
         clearCart,
       }).then(() => {
@@ -104,12 +107,13 @@ export default function CartVeiw(): JSX.Element {
         id="paypal-button-container"
         className={
           showLoadingDots
-            ? `${buttonsWrapper} ${objectEnter}`
-            : `${buttonsWrapper} ${objectEnterActive}`
+            ? `${buttonsWrapper} ${objectEnter} ${raiseBtns}`
+            : `${buttonsWrapper} ${objectEnterActive} ${raiseBtns}`
         }
       ></div>
-      <Modal isOpen={isOpen} setModalOpen={setModalOpen}>
-        <PaymentResponseMessage paymentSuccessful={paymentSuccessful} />
+      <Modal isOpen={isOpen} setModalOpen={setModalOpen} hideClose={loadingModalIsOpen}>
+        {loadingModalIsOpen && <LoadingDots />}
+        {!loadingModalIsOpen && <PaymentResponseMessage paymentSuccessful={paymentSuccessful} />}
       </Modal>
     </div>
   );

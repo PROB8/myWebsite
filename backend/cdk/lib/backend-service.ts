@@ -15,7 +15,7 @@ import {
   PolicyStatement,
 } from 'aws-cdk-lib/aws-iam';
 import { Bucket } from 'aws-cdk-lib/aws-s3';
-import { Duration } from 'aws-cdk-lib';
+import { Duration, RemovalPolicy } from 'aws-cdk-lib';
 import { LogGroup } from 'aws-cdk-lib/aws-logs';
 import { Queue } from 'aws-cdk-lib/aws-sqs';
 
@@ -131,7 +131,7 @@ export default class BackendService extends Construct {
           effect: Effect.ALLOW,
           principals: [new StarPrincipal()],
           actions: ['execute-api:Invoke'],
-          resources: [`arn:aws:execute-api:*:*:*/prod/*/api/jngpaypal${process.env.NODE_ENV === 'prod' ? '' : '-staging'}/order`],
+          resources: [`arn:aws:execute-api:*:*:*/prod/*/api/jngpaypal*`],
           conditions,
         }),
       ],
@@ -139,6 +139,7 @@ export default class BackendService extends Construct {
 
     // * create log group for backend api gateway logs
     const prdLogGroup = new LogGroup(this, 'jng-backend-log-group', {
+      removalPolicy: process.env.NODE_ENV === 'prod' ? RemovalPolicy.RETAIN : RemovalPolicy.DESTROY,
       logGroupName: `jng-backend-log-group${process.env.NODE_ENV === 'prod' ? '' : '-staging'}`,
     });
 

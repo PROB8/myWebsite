@@ -156,7 +156,7 @@ export default class BackendService extends Construct {
       policy: apiResourcePolicy,
       defaultCorsPreflightOptions: {
         allowCredentials: true,
-        allowOrigins: ['https://staging.jahanaeemgitonga.com'],
+        allowOrigins: [process.env.NODE_ENV === 'prod' ? 'https://jahanaeemgitonga.com' : 'https://staging.jahanaeemgitonga.com'],
         allowHeaders: ['*'],
         allowMethods: ['POST', 'OPTIONS'],
       },

@@ -13,10 +13,11 @@ export default function response(
   const headerOjb = {
     ...(statusCode >= 200 && statusCode < 300
       ? {
-          'Access-Control-Allow-Origins': 'https://jahanaeemgitonga.com,https://staging.jahanaeemgitonga.com',
+          'Access-Control-Allow-Origin': 'https://jahanaeemgitonga.com,https://staging.jahanaeemgitonga.com',
           'Access-Control-Allow-Headers': '*',
           'Access-Control-Allow-Methods': 'POST,OPTIONS',
-          'Access-Control-Allow-Credentials': 'true'
+          'Access-Control-Allow-Credentials': 'true',
+          'Content-Type': 'application/json',
         }
       : {}),
     ...headers,

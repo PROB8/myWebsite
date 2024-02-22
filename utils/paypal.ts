@@ -46,7 +46,7 @@ export default async function loadPaypal(
           mode: 'cors',
           headers: {
             'Content-Type': 'application/json',
-            'Access-Control-Allow-Origins': '*',
+            'Access-Control-Allow-Origin': 'https://jahanaeemgitonga.com,https://staging.jahanaeemgitonga.com',
             'Access-Control-Allow-Methods': 'POST,OPTIONS',
             'Access-Control-Allow-Credentials': 'true',
             'Access-Control-Allow-Headers': '*'

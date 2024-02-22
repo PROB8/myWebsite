@@ -69,6 +69,7 @@ export default async function loadPaypal(
             throw new Error('Something broke: order cannot be sent');
           })
           .catch((e) => {
+            console.log("IN HERE")
             //     Todo:   We were not able to send your eBook! Please contact us at gtngbooks@gmail.com and supply the following
             //       orderId: <span class="bold">${orderData.id}</span>!
             //     `;

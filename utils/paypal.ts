@@ -11,19 +11,16 @@ import {
   PayPalNamespace,
   loadScript,
 } from '@paypal/paypal-js';
+import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 import { Dispatch, SetStateAction } from 'react';
-import { Subject } from 'rxjs';
-
-export const callBackend = new Subject<OrderResponseBody>();
 
 type CartOptions = {
   setLodingModalIsOpen: Dispatch<SetStateAction<boolean>>;
   setShowLoadingDots: Dispatch<SetStateAction<boolean>>;
-  setModalOpen: () => void;
-  onSuccess: () => void;
+  onSuccess: (orderData: OrderResponseBody) => void;
   purchaseUnits: PaypalCartItem[];
   clearCart: () => void;
-  onError: () => void;
+  onError: (error: Record<string, unknown>) => void;
 };
 
 export default async function loadPaypal(
@@ -33,13 +30,7 @@ export default async function loadPaypal(
   if (buttonContainer) {
     buttonContainer.replaceChildren();
   }
-  const {
-    setShowLoadingDots,
-    onError,
-    clearCart,
-    setLodingModalIsOpen,
-    setModalOpen,
-  } = options;
+  const { setShowLoadingDots, onError, onSuccess } = options;
   const buttonOptions = {
     style: {
       shape: 'rect',
@@ -47,7 +38,6 @@ export default async function loadPaypal(
       layout: 'vertical',
       label: 'paypal',
     },
-
     createOrder: function (
       _data: CreateOrderData,
       actions: CreateOrderActions
@@ -56,8 +46,7 @@ export default async function loadPaypal(
         purchase_units: options.purchaseUnits,
       } as unknown as CreateOrderRequestBody); // * all of the value prop for amount should be a string but we have numbers, they are coerced to strings during the request
     },
-
-    onApprove: function (data: OnApproveData, actions: OnApproveActions) {
+    onApprove: function (_data: OnApproveData, actions: OnApproveActions) {
       if (!actions.order) {
         return;
       }
@@ -65,16 +54,11 @@ export default async function loadPaypal(
       return actions.order.capture().then(function (
         orderData: OrderResponseBody
       ) {
-        setLodingModalIsOpen(true);
-        setModalOpen();
-        callBackend.next(orderData);
+        onSuccess(orderData);
       });
     },
-
-    onError: function (err: any) {
-      onError();
-      //TODO:             We were not able to fulfill your purchase! Please try again!`;
-      console.log(err);
+    onError: function (err: Record<string, unknown>) {
+      onError(err);
     },
   };
 
@@ -101,24 +85,38 @@ export default async function loadPaypal(
   return paypal;
 }
 
+export function createCartForPaypal(cart: CartItem[]) {
+  let paypalCart: PaypalCartItem[] = [];
+  for (const item of cart) {
+    for (let i = 0; i < item.quantity; i++) {
+      paypalCart = [
+        ...paypalCart,
+        {
+          reference_id: `${item.id}-${i}`,
+          amount: { currency_code: 'USD', value: item.price },
+        },
+      ];
+    }
+  }
+  return paypalCart;
+}
+
 type InternalFulfillmentApiProps = {
   orderData: OrderResponseBody;
   setLodingModalIsOpen: Dispatch<SetStateAction<boolean>>;
-  setPaymentSuccessful: Dispatch<SetStateAction<boolean>>;
-  setShowButtonContainer: Dispatch<SetStateAction<boolean>>;
-  payPalButtonContainer: HTMLElement | null;
   setWhichHeight: Dispatch<SetStateAction<string>>;
   cartHeight: string;
+  router: AppRouterInstance;
+  clearCart: () => void;
 };
 export function callInternalFulfillmentApi(props: InternalFulfillmentApiProps) {
   const {
     orderData,
     setLodingModalIsOpen,
-    setPaymentSuccessful,
-    setShowButtonContainer,
-    payPalButtonContainer,
     setWhichHeight,
     cartHeight,
+    clearCart,
+    router,
   } = props;
   fetch(process.env.NEXT_PUBLIC_PAYPAL_API_URL as string, {
     method: 'POST',
@@ -136,9 +134,8 @@ export function callInternalFulfillmentApi(props: InternalFulfillmentApiProps) {
       if (res.ok) {
         //TODO:       Thank you for your purchase! Please check your email,
         setLodingModalIsOpen(false);
-        setPaymentSuccessful(true);
-        setShowButtonContainer(false);
-        payPalButtonContainer?.replaceChildren();
+        clearCart();
+        router.push(`/thanks?referenceId=${orderData.id}`)
         return;
       }
       console.log({ response });
@@ -150,20 +147,4 @@ export function callInternalFulfillmentApi(props: InternalFulfillmentApiProps) {
       setLodingModalIsOpen(false);
       console.error(e);
     });
-}
-
-export function createCartForPaypal(cart: CartItem[]) {
-  let paypalCart: PaypalCartItem[] = [];
-  for (const item of cart) {
-    for (let i = 0; i < item.quantity; i++) {
-      paypalCart = [
-        ...paypalCart,
-        {
-          reference_id: `${item.id}-${i}`,
-          amount: { currency_code: 'USD', value: item.price },
-        },
-      ];
-    }
-  }
-  return paypalCart;
 }

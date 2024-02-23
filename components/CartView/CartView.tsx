@@ -7,7 +7,6 @@ import styles from './CartView.module.scss';
 import SmallItemPreview from 'components/SmallItemPreview/SmallItemPreview';
 import CartItem from '@/types/cartItem';
 import loadPaypal, {
-  callBackend,
   callInternalFulfillmentApi,
   createCartForPaypal,
 } from '@/utils/paypal';
@@ -16,7 +15,8 @@ import LoadingDots from '../LoadingDots/LoadingDots';
 import Modal from '../Modal/Modal';
 import useModal from '@/hooks/useModal';
 import PaymentResponseMessage from '../PaymentResponseMessage/PaymentResponseMessage';
-import { OrderResponseBody } from '@paypal/paypal-js';
+
+import { useRouter } from 'next/navigation';
 
 export default function CartVeiw(): JSX.Element {
   const {
@@ -32,40 +32,11 @@ export default function CartVeiw(): JSX.Element {
   const { alwaysCentered } = sharedStyles;
   const [addItem, cart, removeItem, clearCart] = useCart();
   const [isOpen, setModalOpen] = useModal();
-  const [isOpenFulfilmentApiModal, setIsOpenFulfilmentApiModalOpen] =
-    useModal();
+  const router = useRouter();
   const [showLoadingDots, setShowLoadingDots] = useState(true);
   const [whichHeight, setWhichHeight] = useState<string>(cartHeight);
-  const [paymentSuccessful, setPaymentSuccessful] = useState(false);
+
   const [loadingModalIsOpen, setLodingModalIsOpen] = useState(false);
-  const [showButtonContainer, setShowButtonContainer] = useState(true);
-  const [paymentReferenceId, setPaymentReferenceId] = useState('');
-
-  const callBackendSubscription = callBackend.subscribe({
-    next: (orderData: OrderResponseBody) => {
-      const payPalButtonContainer = document.getElementById(
-        'paypal-button-container'
-      );
-
-      setPaymentReferenceId(orderData.id as string);
-      callInternalFulfillmentApi({
-        orderData,
-        setLodingModalIsOpen,
-        setPaymentSuccessful,
-        setShowButtonContainer,
-        payPalButtonContainer,
-        setWhichHeight,
-        cartHeight,
-      });
-
-    },
-  });
-
-  useEffect(() => {
-    return () => {
-      callBackendSubscription.unsubscribe();
-    };
-  }, [callBackendSubscription]);
 
   useEffect(() => {
     if (cart.length === 0) {
@@ -79,21 +50,23 @@ export default function CartVeiw(): JSX.Element {
 
       loadPaypal({
         setLodingModalIsOpen,
-        setModalOpen,
         setShowLoadingDots,
         purchaseUnits: paypalCart,
-        onError: () => {
+        onError: (error: Record<string, unknown>) => {
+          setModalOpen();
           setWhichHeight(cartHeight);
-          setIsOpenFulfilmentApiModalOpen();
+          console.error(error);
         },
-        onSuccess: () => {
-          clearCart();
-          setLodingModalIsOpen(false);
-          setPaymentSuccessful(true);
-          const payPalButtonContainer = document.getElementById(
-            'paypal-button-container'
-          );
-          payPalButtonContainer?.replaceChildren();
+        onSuccess: (orderData) => {
+          setLodingModalIsOpen(true);
+          callInternalFulfillmentApi({
+            orderData,
+            cartHeight,
+            setLodingModalIsOpen,
+            setWhichHeight,
+            router,
+            clearCart,
+          });
         },
         clearCart,
       }).then(() => {
@@ -101,7 +74,6 @@ export default function CartVeiw(): JSX.Element {
         if (cart.length >= 2) {
           setWhichHeight('');
         }
-        // setShowLoadingDots(false);
       });
     }
   }, [cart, cartHeight, clearCart, setModalOpen]);
@@ -149,20 +121,13 @@ export default function CartVeiw(): JSX.Element {
         setModalOpen={setModalOpen}
         hideClose={loadingModalIsOpen}
       >
+        {/**
+         * USE REACTIVE JS TO UPDATE THE MESSAGE HERE
+         * 
+         * * 
+         */}
         {loadingModalIsOpen && <LoadingDots />}
-        {!loadingModalIsOpen && (
-          <PaymentResponseMessage
-            paymentSuccessful={paymentSuccessful}
-            paymentReferenceId={paymentReferenceId}
-          />
-        )}
-      </Modal>
-      <Modal
-        isOpen={isOpenFulfilmentApiModal}
-        setModalOpen={setIsOpenFulfilmentApiModalOpen}
-        hideClose={false}
-      >
-        <div>Something broke!</div>
+        {!loadingModalIsOpen && <PaymentResponseMessage />}
       </Modal>
     </div>
   );

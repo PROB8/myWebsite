@@ -2,11 +2,25 @@ import Link from 'next/link';
 import PageHeader from '../PageHeader/PageHeader';
 import styles from './PaymentResponseMessage.module.scss';
 import { useSearchParams } from 'next/navigation';
+import { Suspense } from 'react';
 
 export default function ThanksView(): JSX.Element {
-  const { thanksViewWrapper, width300Center } = styles;
-  const queryParams = useSearchParams();
+  
+  return (
+    <Suspense fallback={<div>Loading...</div>}> {/* Add a fallback UI here */}
+      <ThanksContent />
+    </Suspense>
+  );
+}
 
+function ThanksContent(): JSX.Element {
+  const searchParams = useSearchParams();
+
+  // Note: Directly using `searchParams.get` in the render might cause issues
+  // if searchParams is not ready. Ensure searchParams is loaded or handled correctly.
+  const referenceId = searchParams?.get('referenceId');
+
+  const { thanksViewWrapper, width300Center } = styles;
   return (
     <div className={thanksViewWrapper}>
       <PageHeader headerName="thank you!" hideLinks={false} />
@@ -19,17 +33,13 @@ export default function ThanksView(): JSX.Element {
           if you do not see it in your inbox.
         </p>
         <p>
-          Your payment reference ID is{' '}
-          <strong>{queryParams?.get('referenceId')}</strong>.
+          Your payment reference ID is <strong>{referenceId}</strong>.
         </p>
-
         <p>
           Should you experience any complications with your order please email{' '}
-          <Link href="mailto:gtngbooks@gmail.com">gtngbooks@gmail.com</Link>{' '}
-          with your reference ID and concern.
+          <Link href="mailto:gtngbooks@gmail.com">gtngbooks@gmail.com</Link> with
+          your reference ID and concern.
         </p>
-
-        <p></p>
       </div>
     </div>
   );

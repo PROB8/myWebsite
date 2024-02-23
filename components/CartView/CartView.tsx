@@ -52,7 +52,7 @@ export default function CartVeiw(): JSX.Element {
         clearCart,
       });
     },
-    [cartHeight]
+    [cartHeight, router, clearCart]
   );
 
   const onError = useCallback(
@@ -61,7 +61,7 @@ export default function CartVeiw(): JSX.Element {
       setWhichHeight(cartHeight);
       console.error(error);
     },
-    [cartHeight]
+    [cartHeight, setModalOpen]
   );
 
   useEffect(() => {
@@ -88,7 +88,7 @@ export default function CartVeiw(): JSX.Element {
         }
       });
     }
-  }, [cart, cartHeight, clearCart, setModalOpen]);
+  }, [cart, cartHeight, clearCart, setModalOpen, onError, onSuccess]);
 
   return (
     <div id="cart" className={`${whichHeight} ${cartWrapper}`}>

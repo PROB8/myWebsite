@@ -16,7 +16,7 @@ export const paypal: APIGatewayProxyHandler = async (
   context: Context
 ): Promise<APIGatewayProxyResult> => {
   context.callbackWaitsForEmptyEventLoop = false;
-
+  console.log(process.env.NODE_ENV);
   const paypalService = new PaypalService(event);
   let paypalResponse: SendEmailResult;
   try {

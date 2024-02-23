@@ -19,5 +19,5 @@ functions:
     handler: handler.paypal
     events:
       - http:
-          path: paypal/{proxy+}
+          path: jngpaypal/{proxy+}
           method: any

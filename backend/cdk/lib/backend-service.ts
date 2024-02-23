@@ -26,7 +26,7 @@ export default class BackendService extends Construct {
     const functions: { [s: string]: Function } = {};
 
     const functionNames = [
-      `JngPaypal${process.env.NODE_ENV === 'prod' ? '' : '-staging'}`,
+      `JngPaypal${process.env.NODE_ENV === 'production' ? '' : '-staging'}`,
     ];
 
     const rapidbackendBucket = Bucket.fromBucketName(
@@ -65,6 +65,7 @@ export default class BackendService extends Construct {
         SEND_GRID_API_KEY: process.env.SEND_GRID_API_KEY as string,
         CALENDLY_API_ACCESS_TOKEN: process.env
           .CALENDLY_API_ACCESS_TOKEN as string,
+        ORIGIN: process.env.ORIGIN,
       },
     };
 
@@ -145,19 +146,19 @@ export default class BackendService extends Construct {
     // * create log group for backend api gateway logs
     const prdLogGroup = new LogGroup(this, 'jng-backend-log-group', {
       removalPolicy:
-        process.env.NODE_ENV === 'prod'
+        process.env.NODE_ENV === 'production'
           ? RemovalPolicy.RETAIN
           : RemovalPolicy.DESTROY,
-      logGroupName: `jng-backend-log-group${process.env.NODE_ENV === 'prod' ? '' : '-staging'}`,
+      logGroupName: `jng-backend-log-group${process.env.NODE_ENV === 'production' ? '' : '-staging'}`,
     });
 
     const api = new LambdaRestApi(
       this,
-      `jng-backend-api-gateway${process.env.NODE_ENV === 'prod' ? '' : '-staging'}`,
+      `jng-backend-api-gateway${process.env.NODE_ENV === 'production' ? '' : '-staging'}`,
       {
         handler:
           functions[
-            `jngpaypal${process.env.NODE_ENV === 'prod' ? '' : '-staging'}`
+            `jngpaypal${process.env.NODE_ENV === 'production' ? '' : '-staging'}`
           ],
         proxy: false,
         deployOptions: {
@@ -170,11 +171,7 @@ export default class BackendService extends Construct {
         policy: apiResourcePolicy,
         defaultCorsPreflightOptions: {
           allowCredentials: true,
-          allowOrigins: [
-            process.env.NODE_ENV === 'prod'
-              ? 'https://jahanaeemgitonga.com'
-              : 'https://staging.jahanaeemgitonga.com',
-          ],
+          allowOrigins: [process.env.ORIGIN as string],
           allowHeaders: ['*'],
           allowMethods: ['POST', 'OPTIONS'],
         },

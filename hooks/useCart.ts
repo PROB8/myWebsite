@@ -12,7 +12,7 @@ export default function useCart(): [
   (arg: Book) => void,
   CartItem[],
   (id: number) => void,
-  () => void
+  () => void,
 ] {
   const [cart, setCart] = useState<CartItem[]>([]);
   const updateCartAndStorage = (newCart: CartItem[]) => {

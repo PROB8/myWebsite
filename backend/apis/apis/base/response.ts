@@ -13,7 +13,10 @@ export default function response(
   const headerOjb = {
     ...(statusCode >= 200 && statusCode < 300
       ? {
-          'Access-Control-Allow-Origin': process.env.NODE_ENV === 'prod'? 'https://jahanaeemgitonga.com' : 'https://staging.jahanaeemgitonga.com',
+          'Access-Control-Allow-Origin':
+            process.env.NODE_ENV === 'prod'
+              ? 'https://jahanaeemgitonga.com'
+              : 'https://staging.jahanaeemgitonga.com',
           'Access-Control-Allow-Headers': '*',
           'Access-Control-Allow-Methods': 'POST,OPTIONS',
           'Access-Control-Allow-Credentials': 'true',

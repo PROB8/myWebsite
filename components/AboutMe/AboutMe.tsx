@@ -12,7 +12,7 @@ export default function AboutMe(): JSX.Element {
       <p className={about}>
         Peace, I&apos;m Jaha Naeem Gitonga, but you can call me Naeem. I am from
         Clinton, NC &#40;born and raised&#41;. Do <strong>not</strong> ask me if
-        I need a work sponsorship  to work in the USA. I am a technical leader.
+        I need a work sponsorship to work in the USA. I am a technical leader.
         I&apos;ve worked with teams to deliver software for the last six years,
         being responsible for guiding and overseeing the technical aspects of
         projects, ensuring the team&apos;s adherence to best practices, and

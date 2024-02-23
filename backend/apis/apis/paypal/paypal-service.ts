@@ -37,7 +37,10 @@ export default class PaypalService extends BaseService<Order> {
    */
   private static routeMap: RouteMap = {
     POST: {
-      sendEmail: process.env.WHICH_ROUTE === 'staging' ? PaypalRoutes.orderstaging : PaypalRoutes.order,
+      sendEmail:
+        process.env.WHICH_ROUTE === 'staging'
+          ? PaypalRoutes.orderstaging
+          : PaypalRoutes.order,
     },
   };
 
@@ -220,7 +223,8 @@ export default class PaypalService extends BaseService<Order> {
     // * I worked all day on this. the fromIni() only works locally, and My syntax was off for the credentials (wasn't camel casing the key names was using ACCESS_KEY_ID instead)
     const presigner = new S3RequestPresigner({
       credentials:
-        process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging'
+        process.env.NODE_ENV === 'production' ||
+        process.env.NODE_ENV === 'staging'
           ? {
               accessKeyId: process.env.ACCESS_KEY_ID,
               secretAccessKey: process.env.SECRET_ACCESS_KEY,
@@ -250,11 +254,7 @@ export default class PaypalService extends BaseService<Order> {
       boughtMap[this.productToTemplate[id]] = true;
     });
 
-    return [
-      boughtMap.pyl,
-      boughtMap.rb,
-      boughtMap.consult,
-    ];
+    return [boughtMap.pyl, boughtMap.rb, boughtMap.consult];
   }
 
   async fetchCalendlySchedulingLink(): Promise<string> {

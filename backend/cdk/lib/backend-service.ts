@@ -25,7 +25,9 @@ export default class BackendService extends Construct {
 
     const functions: { [s: string]: Function } = {};
 
-    const functionNames = [`JngPaypal${process.env.NODE_ENV === 'prod' ? '' : '-staging'}`];
+    const functionNames = [
+      `JngPaypal${process.env.NODE_ENV === 'prod' ? '' : '-staging'}`,
+    ];
 
     const rapidbackendBucket = Bucket.fromBucketName(
       this,
@@ -61,14 +63,15 @@ export default class BackendService extends Construct {
         SECRET_ACCESS_KEY: process.env.SECRET_ACCESS_KEY as string,
         DEAD_LETTER_QUEUE_URL: deadLetterQueue.queueUrl,
         SEND_GRID_API_KEY: process.env.SEND_GRID_API_KEY as string,
-        CALENDLY_API_ACCESS_TOKEN: process.env.CALENDLY_API_ACCESS_TOKEN as string
+        CALENDLY_API_ACCESS_TOKEN: process.env
+          .CALENDLY_API_ACCESS_TOKEN as string,
       },
     };
 
     functionNames.forEach((name: string) => {
       const nameLowerCased = name.toLowerCase();
       const nameWithoutStage = nameLowerCased.split('-')[0];
-      console.log({nameLowerCased, name, nameWithoutStage})
+      console.log({ nameLowerCased, name, nameWithoutStage });
       const lambda = new Function(this, name, {
         functionName: nameLowerCased,
         runtime: Runtime.NODEJS_18_X,
@@ -84,7 +87,7 @@ export default class BackendService extends Construct {
       });
 
       rapidbackendBucket.grantRead(lambda);
-      jngwebsiteBucket.grantRead(lambda)
+      jngwebsiteBucket.grantRead(lambda);
 
       const policyStatementRb = new PolicyStatement({
         sid: 'S3GetObject',
@@ -95,9 +98,12 @@ export default class BackendService extends Construct {
       const policyStatementJng = new PolicyStatement({
         sid: 'S3GetObjectJng',
         actions: ['s3:GetObject', 's3:PutObject', 's3:ListBucket'],
-        resources: ['arn:aws:s3:::jahanaeemgitongawebsite', 'arn:aws:s3:::jahanaeemgitongawebsite/*'],
+        resources: [
+          'arn:aws:s3:::jahanaeemgitongawebsite',
+          'arn:aws:s3:::jahanaeemgitongawebsite/*',
+        ],
       });
-      
+
       lambda.addToRolePolicy(policyStatementRb);
       lambda.addToRolePolicy(policyStatementJng);
       lambda.addToRolePolicy(sqsPermission);
@@ -124,7 +130,6 @@ export default class BackendService extends Construct {
       //  },
     };
 
-
     const apiResourcePolicy = new PolicyDocument({
       statements: [
         new PolicyStatement({
@@ -139,28 +144,42 @@ export default class BackendService extends Construct {
 
     // * create log group for backend api gateway logs
     const prdLogGroup = new LogGroup(this, 'jng-backend-log-group', {
-      removalPolicy: process.env.NODE_ENV === 'prod' ? RemovalPolicy.RETAIN : RemovalPolicy.DESTROY,
+      removalPolicy:
+        process.env.NODE_ENV === 'prod'
+          ? RemovalPolicy.RETAIN
+          : RemovalPolicy.DESTROY,
       logGroupName: `jng-backend-log-group${process.env.NODE_ENV === 'prod' ? '' : '-staging'}`,
     });
 
-    const api = new LambdaRestApi(this, `jng-backend-api-gateway${process.env.NODE_ENV === 'prod' ? '' : '-staging'}`, {
-      handler: functions[`jngpaypal${process.env.NODE_ENV === 'prod' ? '' : '-staging'}`],
-      proxy: false,
-      deployOptions: {
-        stageName: '',
-        metricsEnabled: true,
-        loggingLevel: MethodLoggingLevel.INFO,
-        accessLogFormat: AccessLogFormat.jsonWithStandardFields(),
-        accessLogDestination: new LogGroupLogDestination(prdLogGroup),
-      },
-      policy: apiResourcePolicy,
-      defaultCorsPreflightOptions: {
-        allowCredentials: true,
-        allowOrigins: [process.env.NODE_ENV === 'prod' ? 'https://jahanaeemgitonga.com' : 'https://staging.jahanaeemgitonga.com'],
-        allowHeaders: ['*'],
-        allowMethods: ['POST', 'OPTIONS'],
-      },
-    });
+    const api = new LambdaRestApi(
+      this,
+      `jng-backend-api-gateway${process.env.NODE_ENV === 'prod' ? '' : '-staging'}`,
+      {
+        handler:
+          functions[
+            `jngpaypal${process.env.NODE_ENV === 'prod' ? '' : '-staging'}`
+          ],
+        proxy: false,
+        deployOptions: {
+          stageName: '',
+          metricsEnabled: true,
+          loggingLevel: MethodLoggingLevel.INFO,
+          accessLogFormat: AccessLogFormat.jsonWithStandardFields(),
+          accessLogDestination: new LogGroupLogDestination(prdLogGroup),
+        },
+        policy: apiResourcePolicy,
+        defaultCorsPreflightOptions: {
+          allowCredentials: true,
+          allowOrigins: [
+            process.env.NODE_ENV === 'prod'
+              ? 'https://jahanaeemgitonga.com'
+              : 'https://staging.jahanaeemgitonga.com',
+          ],
+          allowHeaders: ['*'],
+          allowMethods: ['POST', 'OPTIONS'],
+        },
+      }
+    );
 
     const basePath = api.root.addResource('api');
 

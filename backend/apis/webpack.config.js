@@ -2,7 +2,9 @@ const path = require('path');
 const slsw = require('serverless-webpack');
 
 const mode =
-  process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging' ? 'production' : 'development';
+  process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging'
+    ? 'production'
+    : 'development';
 const USE_SOURCE_MAP_DEBUG = true;
 const SOURCE_MAP_INIT_PATH = path.resolve(
   __dirname,

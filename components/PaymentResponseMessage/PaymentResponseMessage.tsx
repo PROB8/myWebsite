@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import styles from './PaymentResponseMessage.module.scss';
 
 export default function PaymentResponse(): JSX.Element {
@@ -15,7 +16,7 @@ export default function PaymentResponse(): JSX.Element {
 
       <p className={lastP}>
         If you continue to exprience issues purchasing, please contact support{' '}
-        <a href="mailto:gtngbooks@gmail.com">gtngbooks@gmail.com</a>.
+        <Link href="mailto:gtngbooks@gmail.com">gtngbooks@gmail.com</Link>.
       </p>
     </div>
   );

@@ -57,6 +57,7 @@ export default function CartVeiw(): JSX.Element {
         setWhichHeight,
         cartHeight,
       });
+
     },
   });
 
@@ -89,7 +90,10 @@ export default function CartVeiw(): JSX.Element {
           clearCart();
           setLodingModalIsOpen(false);
           setPaymentSuccessful(true);
-          setShowButtonContainer(false);
+          const payPalButtonContainer = document.getElementById(
+            'paypal-button-container'
+          );
+          payPalButtonContainer?.replaceChildren();
         },
         clearCart,
       }).then(() => {
@@ -132,14 +136,14 @@ export default function CartVeiw(): JSX.Element {
           <LoadingDots />
         </div>
       )}
-      {showButtonContainer && <div
+      <div
         id="paypal-button-container"
         className={
           showLoadingDots
             ? `${buttonsWrapper} ${objectEnter} ${raiseBtns}`
             : `${buttonsWrapper} ${objectEnterActive} ${raiseBtns}`
         }
-      ></div>}
+      ></div>
       <Modal
         isOpen={isOpen}
         setModalOpen={setModalOpen}

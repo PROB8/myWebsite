@@ -109,6 +109,7 @@ type InternalFulfillmentApiProps = {
   payPalButtonContainer: HTMLElement | null;
   setWhichHeight: Dispatch<SetStateAction<string>>;
   cartHeight: string;
+  xyz: () => {}
 };
 export function callInternalFulfillmentApi(props: InternalFulfillmentApiProps) {
   const {

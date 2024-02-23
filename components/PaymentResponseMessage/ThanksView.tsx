@@ -3,7 +3,7 @@ import { useSearchParams } from 'next/navigation';
 
 export default function ThanksView(): JSX.Element {
   const { thankViewWrapper } = styles;
-  const queryParams = useSearchParams()
+  const queryParams = useSearchParams();
 
   return (
     <div className={thankViewWrapper}>
@@ -12,7 +12,8 @@ export default function ThanksView(): JSX.Element {
       </p>
       <p>Please check your email for your confirmation email.</p>
       <p className={'lastP'}>
-        Your payment reference ID is <strong>{queryParams?.get('referenceId')}</strong>.
+        Your payment reference ID is{' '}
+        <strong>{queryParams?.get('referenceId')}</strong>.
       </p>
     </div>
   );

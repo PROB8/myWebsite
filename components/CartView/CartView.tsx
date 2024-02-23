@@ -1,22 +1,24 @@
 'use client';
-import { useEffect, useState } from 'react';
-import useCart from 'hooks/useCart';
+import { useEffect, useState, useCallback } from 'react';
 import PageHeader from 'components/PageHeader/PageHeader';
 import sharedStyles from 'components/SharedCss/SharedCss.module.scss';
-import styles from './CartView.module.scss';
 import SmallItemPreview from 'components/SmallItemPreview/SmallItemPreview';
 import CartItem from '@/types/cartItem';
+import PaypalCartItem from '@/types/paypalCartItem';
+import LoadingDots from '../LoadingDots/LoadingDots';
+import Modal from '../Modal/Modal';
+import PaymentResponseMessage from '../PaymentResponseMessage/PaymentResponseMessage';
+
+import useCart from 'hooks/useCart';
+import useModal from '@/hooks/useModal';
+import { useRouter } from 'next/navigation';
+import { OrderResponseBody } from '@paypal/paypal-js';
 import loadPaypal, {
   callInternalFulfillmentApi,
   createCartForPaypal,
 } from '@/utils/paypal';
-import PaypalCartItem from '@/types/paypalCartItem';
-import LoadingDots from '../LoadingDots/LoadingDots';
-import Modal from '../Modal/Modal';
-import useModal from '@/hooks/useModal';
-import PaymentResponseMessage from '../PaymentResponseMessage/PaymentResponseMessage';
 
-import { useRouter } from 'next/navigation';
+import styles from './CartView.module.scss';
 
 export default function CartVeiw(): JSX.Element {
   const {
@@ -33,10 +35,34 @@ export default function CartVeiw(): JSX.Element {
   const [addItem, cart, removeItem, clearCart] = useCart();
   const [isOpen, setModalOpen] = useModal();
   const router = useRouter();
+
   const [showLoadingDots, setShowLoadingDots] = useState(true);
   const [whichHeight, setWhichHeight] = useState<string>(cartHeight);
-
   const [loadingModalIsOpen, setLodingModalIsOpen] = useState(false);
+
+  const onSuccess = useCallback(
+    (orderData: OrderResponseBody): void => {
+      setLodingModalIsOpen(true);
+      callInternalFulfillmentApi({
+        orderData,
+        cartHeight,
+        setLodingModalIsOpen,
+        setWhichHeight,
+        router,
+        clearCart,
+      });
+    },
+    [cartHeight]
+  );
+
+  const onError = useCallback(
+    (error: Record<string, unknown>) => {
+      setModalOpen();
+      setWhichHeight(cartHeight);
+      console.error(error);
+    },
+    [cartHeight]
+  );
 
   useEffect(() => {
     if (cart.length === 0) {
@@ -52,22 +78,8 @@ export default function CartVeiw(): JSX.Element {
         setLodingModalIsOpen,
         setShowLoadingDots,
         purchaseUnits: paypalCart,
-        onError: (error: Record<string, unknown>) => {
-          setModalOpen();
-          setWhichHeight(cartHeight);
-          console.error(error);
-        },
-        onSuccess: (orderData) => {
-          setLodingModalIsOpen(true);
-          callInternalFulfillmentApi({
-            orderData,
-            cartHeight,
-            setLodingModalIsOpen,
-            setWhichHeight,
-            router,
-            clearCart,
-          });
-        },
+        onError,
+        onSuccess,
         clearCart,
       }).then(() => {
         // * adjust cart height to show footer
@@ -123,8 +135,8 @@ export default function CartVeiw(): JSX.Element {
       >
         {/**
          * USE REACTIVE JS TO UPDATE THE MESSAGE HERE
-         * 
-         * * 
+         *
+         * *
          */}
         {loadingModalIsOpen && <LoadingDots />}
         {!loadingModalIsOpen && <PaymentResponseMessage />}

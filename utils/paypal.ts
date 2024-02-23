@@ -135,7 +135,7 @@ export function callInternalFulfillmentApi(props: InternalFulfillmentApiProps) {
         //TODO:       Thank you for your purchase! Please check your email,
         setLodingModalIsOpen(false);
         clearCart();
-        router.push(`/thanks?referenceId=${orderData.id}`)
+        router.push(`/thanks?referenceId=${orderData.id}`);
         return;
       }
       console.log({ response });

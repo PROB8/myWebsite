@@ -43,6 +43,7 @@ export default function CartVeiw(): JSX.Element {
   const onSuccess = useCallback(
     (orderData: OrderResponseBody): void => {
       setLodingModalIsOpen(true);
+      setModalOpen();
       callInternalFulfillmentApi({
         orderData,
         cartHeight,

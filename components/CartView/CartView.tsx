@@ -9,6 +9,7 @@ import CartItem from '@/types/cartItem';
 import loadPaypal, {
   callBackend,
   callInternalFulfillmentApi,
+  createCartForPaypal,
 } from '@/utils/paypal';
 import PaypalCartItem from '@/types/paypalCartItem';
 import LoadingDots from '../LoadingDots/LoadingDots';
@@ -30,11 +31,15 @@ export default function CartVeiw(): JSX.Element {
   } = styles;
   const { alwaysCentered } = sharedStyles;
   const [addItem, cart, removeItem, clearCart] = useCart();
+  const [isOpen, setModalOpen] = useModal();
+  const [isOpenFulfilmentApiModal, setIsOpenFulfilmentApiModalOpen] =
+    useModal();
   const [showLoadingDots, setShowLoadingDots] = useState(true);
   const [whichHeight, setWhichHeight] = useState<string>(cartHeight);
   const [paymentSuccessful, setPaymentSuccessful] = useState(false);
   const [loadingModalIsOpen, setLodingModalIsOpen] = useState(false);
   const [showButtonContainer, setShowButtonContainer] = useState(true);
+  const [paymentReferenceId, setPaymentReferenceId] = useState('');
 
   const callBackendSubscription = callBackend.subscribe({
     next: (orderData: OrderResponseBody) => {
@@ -42,6 +47,7 @@ export default function CartVeiw(): JSX.Element {
         'paypal-button-container'
       );
 
+      setPaymentReferenceId(orderData.id as string);
       callInternalFulfillmentApi({
         orderData,
         setLodingModalIsOpen,
@@ -60,26 +66,15 @@ export default function CartVeiw(): JSX.Element {
     };
   }, [callBackendSubscription]);
 
-  const [isOpen, setModalOpen] = useModal();
-
   useEffect(() => {
     if (cart.length === 0) {
       setShowLoadingDots(false);
       return;
     }
+
     let paypalCart: PaypalCartItem[] = [];
     if (cart.length) {
-      for (const item of cart) {
-        for (let i = 0; i < item.quantity; i++) {
-          paypalCart = [
-            ...paypalCart,
-            {
-              reference_id: `${item.id}-${i}`,
-              amount: { currency_code: 'USD', value: item.price },
-            },
-          ];
-        }
-      }
+      paypalCart = createCartForPaypal(cart);
 
       loadPaypal({
         setLodingModalIsOpen,
@@ -88,6 +83,7 @@ export default function CartVeiw(): JSX.Element {
         purchaseUnits: paypalCart,
         onError: () => {
           setWhichHeight(cartHeight);
+          setIsOpenFulfilmentApiModalOpen();
         },
         onSuccess: () => {
           setLodingModalIsOpen(false);
@@ -150,8 +146,18 @@ export default function CartVeiw(): JSX.Element {
       >
         {loadingModalIsOpen && <LoadingDots />}
         {!loadingModalIsOpen && (
-          <PaymentResponseMessage paymentSuccessful={paymentSuccessful} />
+          <PaymentResponseMessage
+            paymentSuccessful={paymentSuccessful}
+            paymentReferenceId={paymentReferenceId}
+          />
         )}
+      </Modal>
+      <Modal
+        isOpen={isOpenFulfilmentApiModal}
+        setModalOpen={setIsOpenFulfilmentApiModalOpen}
+        hideClose={false}
+      >
+        <div>Something broke!</div>
       </Modal>
     </div>
   );

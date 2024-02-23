@@ -1,3 +1,4 @@
+import CartItem from '@/types/cartItem';
 import PaypalCartItem from '@/types/paypalCartItem';
 import {
   CreateOrderActions,
@@ -60,7 +61,7 @@ export default async function loadPaypal(
       if (!actions.order) {
         return;
       }
-      console.log({ data });
+
       return actions.order.capture().then(function (
         orderData: OrderResponseBody
       ) {
@@ -149,4 +150,20 @@ export function callInternalFulfillmentApi(props: InternalFulfillmentApiProps) {
       setLodingModalIsOpen(false);
       console.error(e);
     });
+}
+
+export function createCartForPaypal(cart: CartItem[]) {
+  let paypalCart: PaypalCartItem[] = [];
+  for (const item of cart) {
+    for (let i = 0; i < item.quantity; i++) {
+      paypalCart = [
+        ...paypalCart,
+        {
+          reference_id: `${item.id}-${i}`,
+          amount: { currency_code: 'USD', value: item.price },
+        },
+      ];
+    }
+  }
+  return paypalCart;
 }

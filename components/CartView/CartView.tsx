@@ -6,12 +6,16 @@ import sharedStyles from 'components/SharedCss/SharedCss.module.scss';
 import styles from './CartView.module.scss';
 import SmallItemPreview from 'components/SmallItemPreview/SmallItemPreview';
 import CartItem from '@/types/cartItem';
-import loadPaypal from '@/utils/paypal';
+import loadPaypal, {
+  callBackend,
+  callInternalFulfillmentApi,
+} from '@/utils/paypal';
 import PaypalCartItem from '@/types/paypalCartItem';
 import LoadingDots from '../LoadingDots/LoadingDots';
 import Modal from '../Modal/Modal';
 import useModal from '@/hooks/useModal';
 import PaymentResponseMessage from '../PaymentResponseMessage/PaymentResponseMessage';
+import { OrderResponseBody } from '@paypal/paypal-js';
 
 export default function CartVeiw(): JSX.Element {
   const {
@@ -29,7 +33,33 @@ export default function CartVeiw(): JSX.Element {
   const [showLoadingDots, setShowLoadingDots] = useState(true);
   const [whichHeight, setWhichHeight] = useState<string>(cartHeight);
   const [paymentSuccessful, setPaymentSuccessful] = useState(false);
-  const [loadingModalIsOpen, setLodingModalIsOpen] = useState(false)
+  const [loadingModalIsOpen, setLodingModalIsOpen] = useState(false);
+  const [showButtonContainer, setShowButtonContainer] = useState(true);
+
+  const callBackendSubscription = callBackend.subscribe({
+    next: (orderData: OrderResponseBody) => {
+      const payPalButtonContainer = document.getElementById(
+        'paypal-button-container'
+      );
+
+      callInternalFulfillmentApi({
+        orderData,
+        setLodingModalIsOpen,
+        setPaymentSuccessful,
+        setShowButtonContainer,
+        payPalButtonContainer,
+        setWhichHeight,
+        cartHeight,
+      });
+    },
+  });
+
+  useEffect(() => {
+    return () => {
+      callBackendSubscription.unsubscribe();
+    };
+  }, [callBackendSubscription]);
+
   const [isOpen, setModalOpen] = useModal();
 
   useEffect(() => {
@@ -50,17 +80,19 @@ export default function CartVeiw(): JSX.Element {
           ];
         }
       }
+
       loadPaypal({
         setLodingModalIsOpen,
         setModalOpen,
-
+        setShowLoadingDots,
         purchaseUnits: paypalCart,
         onError: () => {
           setWhichHeight(cartHeight);
         },
         onSuccess: () => {
-          setLodingModalIsOpen(false)
+          setLodingModalIsOpen(false);
           setPaymentSuccessful(true);
+          setShowButtonContainer(false);
         },
         clearCart,
       }).then(() => {
@@ -68,7 +100,7 @@ export default function CartVeiw(): JSX.Element {
         if (cart.length >= 2) {
           setWhichHeight('');
         }
-        setShowLoadingDots(false);
+        // setShowLoadingDots(false);
       });
     }
   }, [cart, cartHeight, clearCart, setModalOpen]);
@@ -111,9 +143,15 @@ export default function CartVeiw(): JSX.Element {
             : `${buttonsWrapper} ${objectEnterActive} ${raiseBtns}`
         }
       ></div>
-      <Modal isOpen={isOpen} setModalOpen={setModalOpen} hideClose={loadingModalIsOpen}>
+      <Modal
+        isOpen={isOpen}
+        setModalOpen={setModalOpen}
+        hideClose={loadingModalIsOpen}
+      >
         {loadingModalIsOpen && <LoadingDots />}
-        {!loadingModalIsOpen && <PaymentResponseMessage paymentSuccessful={paymentSuccessful} />}
+        {!loadingModalIsOpen && (
+          <PaymentResponseMessage paymentSuccessful={paymentSuccessful} />
+        )}
       </Modal>
     </div>
   );

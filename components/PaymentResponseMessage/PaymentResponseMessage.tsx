@@ -2,11 +2,12 @@ import styles from './PaymentResponseMessage.module.scss';
 
 type PaymentResponseProps = {
   paymentSuccessful: boolean;
+  paymentReferenceId: string;
 };
 export default function PaymentResponse(
   props: PaymentResponseProps
 ): JSX.Element {
-  const { paymentSuccessful } = props;
+  const { paymentSuccessful, paymentReferenceId } = props;
   const { firstP, lastP } = styles;
   if (!paymentSuccessful) {
     return (
@@ -21,12 +22,19 @@ export default function PaymentResponse(
         </p>
 
         <p className={lastP}>
-          If you continue to exprience issues purchasing, please
-          contact support{' '}
+          If you continue to exprience issues purchasing, please contact support{' '}
           <a href="mailto:gtngbooks@gmail.com">gtngbooks@gmail.com</a>.
         </p>
       </div>
     );
   }
-  return <div>in here Payment Response Was successful</div>;
+  return (
+    <div>
+      <p className={firstP}>
+        Awesome! We have successfully process your payment.
+      </p>
+      <p>Please check your email for your confirmation email.</p>
+      <p className={lastP}>Your payment reference ID is {paymentReferenceId}</p>
+    </div>
+  );
 }

@@ -31,10 +31,10 @@ export default function PaymentResponse(
   return (
     <div>
       <p className={firstP}>
-        Awesome! We have successfully process your payment.
+        Awesome! We have successfully processed your payment.
       </p>
       <p>Please check your email for your confirmation email.</p>
-      <p className={lastP}>Your payment reference ID is {paymentReferenceId}</p>
+      <p className={lastP}>Your payment reference ID is <strong>{paymentReferenceId}</strong>.</p>
     </div>
   );
 }

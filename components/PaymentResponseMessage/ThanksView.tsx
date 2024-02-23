@@ -5,9 +5,10 @@ import { useSearchParams } from 'next/navigation';
 import { Suspense } from 'react';
 
 export default function ThanksView(): JSX.Element {
-  
   return (
-    <Suspense fallback={<div>Loading...</div>}> {/* Add a fallback UI here */}
+    <Suspense fallback={<div>Loading...</div>}>
+      {' '}
+      {/* Add a fallback UI here */}
       <ThanksContent />
     </Suspense>
   );
@@ -37,8 +38,8 @@ function ThanksContent(): JSX.Element {
         </p>
         <p>
           Should you experience any complications with your order please email{' '}
-          <Link href="mailto:gtngbooks@gmail.com">gtngbooks@gmail.com</Link> with
-          your reference ID and concern.
+          <Link href="mailto:gtngbooks@gmail.com">gtngbooks@gmail.com</Link>{' '}
+          with your reference ID and concern.
         </p>
       </div>
     </div>

@@ -86,6 +86,7 @@ export default function CartVeiw(): JSX.Element {
           setIsOpenFulfilmentApiModalOpen();
         },
         onSuccess: () => {
+          clearCart();
           setLodingModalIsOpen(false);
           setPaymentSuccessful(true);
           setShowButtonContainer(false);
@@ -131,14 +132,14 @@ export default function CartVeiw(): JSX.Element {
           <LoadingDots />
         </div>
       )}
-      <div
+      {showButtonContainer && <div
         id="paypal-button-container"
         className={
           showLoadingDots
             ? `${buttonsWrapper} ${objectEnter} ${raiseBtns}`
             : `${buttonsWrapper} ${objectEnterActive} ${raiseBtns}`
         }
-      ></div>
+      ></div>}
       <Modal
         isOpen={isOpen}
         setModalOpen={setModalOpen}

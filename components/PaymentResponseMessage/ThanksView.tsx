@@ -24,14 +24,12 @@ export default function ThanksView(): JSX.Element {
         </p>
 
         <p>
-          Should you experience any  complications with your order please email{' '}
-          <Link href="mailto:gtngbooks@gmail.com">gtngbooks@gmail.com</Link> with your
-          reference ID and concern.
+          Should you experience any complications with your order please email{' '}
+          <Link href="mailto:gtngbooks@gmail.com">gtngbooks@gmail.com</Link>{' '}
+          with your reference ID and concern.
         </p>
 
-        <p>
-
-        </p>
+        <p></p>
       </div>
     </div>
   );

@@ -16,7 +16,7 @@ stages:
   - apt install -y jq
   - curl -k "https://awscli.amazonaws.com/awscli-exe-linux=x86_64.zip" -o "awscliv2.zip"
   - unzip "awscliv2.zip"
-  - ./aws/install
+  - sudo ./aws/install
 
 .authenticate-aws: &authenticate-aws
   - export CREDS=`aws sts assume-role --duration-seconds 10800 --role-session-name "gitlab-devops-${CI_PIPELINE_ID}" --role-arn arn:aws:iam::${AWS_ACCOUNT_NUMBER}:role/mywebsite-devops`

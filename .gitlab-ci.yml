@@ -9,7 +9,6 @@ stages:
   - cd backend/cdk
   - npm i
   - npm i -g aws-cdk typescript ts-node
-  - aws sts get-aller-identity
 
 .install-aws: &install-aws
   - apt update

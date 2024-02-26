@@ -1,0 +1,16 @@
+cache: 
+  paths:
+    - backend/cdk/node_modules/
+
+test-cdk:
+  stage: test
+  image: node:20.11.1
+  rules:
+    - if:
+      changes:
+        - backend/cdk/**/*
+        - backend/apis/**/*
+  script:
+    - cd backend/cdk
+    - npm i
+    - npm run test

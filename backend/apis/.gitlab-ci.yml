@@ -2,14 +2,51 @@ cache:
   paths:
     - backend/apis/node_modules/
 
+.common_install: &common_install
+  - cd backend/apis
+  - npm i
+
 test-lambda:
   stage: test
   image: node:20.11.1
   rules:
-    - if:
+    -  if:
       changes:
         - backend/apis/**/*
   script:
-    - cd backend/apis
-    - npm i
+    - *common_install
     - npm run test
+
+build:staging:
+  artifacts:
+    expose_as: backend-build-staging
+    name: backend-build-staging
+    paths: [$PWD/backend/apis/.serverless/jngpaypal.zip]
+  needs: ['test-lambda']
+  dependencies:
+    - test-lambda
+  rules:
+    - if:
+      changes:
+        - backend/apis/**/*
+  stage: build
+  script:
+    - *common_install
+    - npm run package:staging
+
+build:prod:
+  artifacts:
+    expose_as: backend-build
+    name: backend-build
+    paths: [$PWD/backend/apis/.serverless/jngpaypal.zip]
+  needs: ['test-lambda']
+  dependencies:
+    - test-lambda
+  rules:
+    - if:
+      changes:
+        - backend/apis/**/*
+  stage: build
+  script:
+    - *common_install
+    - npm run package

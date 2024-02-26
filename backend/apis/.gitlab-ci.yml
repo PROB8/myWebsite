@@ -9,10 +9,10 @@ cache:
 test_lambda:
   stage: test
   image: node:20.11.1
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "staging"'
-      changes:
-        - backend/apis/**/*
+  # rules:
+  #   - if: '$CI_COMMIT_BRANCH == "staging"'
+  #     changes:
+  #       - backend/apis/**/*
   script:
     - *common_install
     - npm run test
@@ -26,10 +26,10 @@ build_staging:
   needs: ['test_lambda']
   dependencies:
     - test_lambda
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "staging"'
-      changes:
-        - backend/apis/**/*
+  # rules:
+  #   - if: '$CI_COMMIT_BRANCH == "staging"'
+  #     changes:
+  #       - backend/apis/**/*
   stage: build
   environment:
     name: staging

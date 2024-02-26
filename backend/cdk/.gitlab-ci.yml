@@ -7,11 +7,11 @@ test_cdk:
   image: node:20.11.1
   dependencies:
     - build_staging
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "staging"'
-      changes:
-        - backend/cdk/**/*
-        - backend/apis/**/*
+  # rules:
+  #   - if: '$CI_COMMIT_BRANCH == "staging"'
+  #     changes:
+  #       - backend/cdk/**/*
+  #       - backend/apis/**/*
   script:
     - cd backend/cdk
     - npm i

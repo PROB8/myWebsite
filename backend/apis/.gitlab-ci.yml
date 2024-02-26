@@ -36,16 +36,16 @@ build_staging:
   script:
     - *common_install
     - touch .env
-      variables=(
+    - variables=(
         "ORIGIN=${ORIGIN}"
         "SEND_GRID_API_KEY=${SEND_GRID_API_KEY}"
         "ACCESS_KEY_ID=${ACCESS_KEY_ID}"
         "SECRET_ACCESS_KEY=${SECRET_ACCESS_KEY}"
         "WHICH_ROUTE=${WHICH_ROUTE}"
       )
-      env_file="./.env"
-      for var in "${variables[@]}"; do
-        echo "$var" >> "$env_file"
+    - env_file="./.env"/
+    - for var in "${variables[@]}"; do \
+        echo "$var" >> "$env_file" \
       done
     - npm run package:staging
 

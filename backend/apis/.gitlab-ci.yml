@@ -9,10 +9,6 @@ cache:
 test_lambda:
   stage: test
   image: node:20.11.1
-  # rules:
-  #   - if: '$CI_COMMIT_BRANCH == "staging"'
-  #     changes:
-  #       - backend/apis/**/*
   script:
     - *common_install
     - npm run test
@@ -26,26 +22,23 @@ build_staging:
   needs: ['test_lambda']
   dependencies:
     - test_lambda
-  # rules:
-  #   - if: '$CI_COMMIT_BRANCH == "staging"'
-  #     changes:
-  #       - backend/apis/**/*
   stage: build
   environment:
     name: staging
   script:
     - *common_install
     - touch .env
-    - variables=(
+    - |
+      variables=(
         "ORIGIN=${ORIGIN}"
         "SEND_GRID_API_KEY=${SEND_GRID_API_KEY}"
         "ACCESS_KEY_ID=${ACCESS_KEY_ID}"
         "SECRET_ACCESS_KEY=${SECRET_ACCESS_KEY}"
         "WHICH_ROUTE=${WHICH_ROUTE}"
       )
-    - env_file="./.env"/
-    - for var in "${variables[@]}"; do \
-        echo "$var" >> "$env_file" \
+      env_file="./.env"
+      for var in "${variables[@]}"; do
+        echo "$var" >> "$env_file"
       done
     - npm run package:staging
 

@@ -53,7 +53,7 @@ export default function CartVeiw(): JSX.Element {
         clearCart,
       });
     },
-    [cartHeight, router, clearCart]
+    [cartHeight, router, clearCart, setModalOpen]
   );
 
   const onError = useCallback(

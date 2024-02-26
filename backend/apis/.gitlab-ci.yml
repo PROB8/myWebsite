@@ -25,7 +25,7 @@ build_staging:
       - $PWD/backend/apis/.serverless/jngpaypal.zip
   needs: ['test_lambda']
   dependencies:
-    - test-lambda
+    - test_lambda
   rules:
     - if: '$CI_COMMIT_BRANCH == "staging"'
       changes:
@@ -43,9 +43,9 @@ build:prod:
     name: 'backend-build'
     paths: 
       - $PWD/backend/apis/.serverless/jngpaypal.zip
-  needs: ['test-lambda']
+  needs: ['test_lambda']
   dependencies:
-    - test-lambda
+    - test_lambda
   rules:
     - if: '$CI_COMMIT_BRANCH == "master"'
       changes:

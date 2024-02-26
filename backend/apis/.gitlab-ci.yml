@@ -35,12 +35,13 @@ build_staging:
         "ACCESS_KEY_ID=${ACCESS_KEY_ID}"
         "SECRET_ACCESS_KEY=${SECRET_ACCESS_KEY}"
         "WHICH_ROUTE=${WHICH_ROUTE}"
+        "NODE_ENV=staging"
       )
       env_file="./.env"
       for var in "${variables[@]}"; do
         echo "$var" >> "$env_file"
       done
-    - npm run package:staging
+    - npm run package
 
 build_prod:
   artifacts:

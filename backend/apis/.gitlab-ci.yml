@@ -10,7 +10,7 @@ test_lambda:
   stage: test
   image: node:20.11.1
   rules:
-    - if: '$CI_COMMIT_BRANCH == "master"'
+    - if: '$CI_COMMIT_BRANCH == "staging"'
       changes:
         - backend/apis/**/*
   script:

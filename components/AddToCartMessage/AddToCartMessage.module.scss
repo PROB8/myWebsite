@@ -1,0 +1,38 @@
+.header {
+  margin: 0 0 20px;
+}
+
+.continueCheckLinksWrapper {
+  display: flex;
+  justify-content: space-between;
+  a,
+  p {
+    text-decoration: none;
+    color: grey;
+  }
+  .psuedoLink {
+    margin: 0;
+  }
+  .psuedoLink:hover {
+    cursor: pointer;
+  }
+}
+
+.smallItemPreviewWrapper {
+  height: 100px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+
+  .imageContainer {
+    height: 100%;
+    width: 60px;
+  }
+
+  .itemDescription {
+    max-width: 150px;
+    p {
+      margin: 5px 0px;
+    }
+  }
+}

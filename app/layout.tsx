@@ -23,7 +23,7 @@ export default function RootLayout({
           href="https://d2j3yisnywcb30.cloudfront.net/pix/favicon.ico"
         />
       </head>
-      <body className={`body`}>
+      <body id="body" className="body">
         {children}
 
         <Script
@@ -1511,8 +1511,11 @@ export default function RootLayout({
               window.pJSDom = [];
               
               window.particlesJS = function(tag_id, params){
-              
-              //console.log(params);
+
+              if (window.location.pathname !== "/") {
+                // We don't want to see any errors cause particles isn't loading
+                return;
+              }
               
               /* no string id? so it's object params, and set the id with default id */
               if(typeof(tag_id) != 'string'){

@@ -1,0 +1,68 @@
+cache:
+  paths:
+    - backend/apis/node_modules/
+
+.common_install: &common_install
+  - cd backend/apis
+  - npm i
+
+test_lambda:
+  stage: test
+  image: node:20.11.1
+  rules:
+    - if: '$CI_COMMIT_BRANCH != "master"'
+      changes:
+        - backend/apis/**/*
+  script:
+    - *common_install
+    - npm run test
+
+build_staging:
+  artifacts:
+    expose_as: 'backend-build-staging'
+    name: 'backend-build-staging'
+    paths:
+      - $PWD/backend/apis/.serverless/jngpaypal.zip
+  needs: ['test_lambda']
+  dependencies:
+    - test_lambda
+  stage: build
+  environment:
+    name: staging
+  script:
+    - *common_install
+    - touch .env
+    - |
+      variables=(
+        "ORIGIN=${ORIGIN}"
+        "SEND_GRID_API_KEY=${SEND_GRID_API_KEY}"
+        "ACCESS_KEY_ID=${ACCESS_KEY_ID}"
+        "SECRET_ACCESS_KEY=${SECRET_ACCESS_KEY}"
+        "WHICH_ROUTE=${WHICH_ROUTE}"
+        "NODE_ENV=staging"
+      )
+      env_file="./.env"
+      for var in "${variables[@]}"; do
+        echo "$var" >> "$env_file"
+      done
+    - npm run package
+
+build_prod:
+  artifacts:
+    expose_as: 'backend-build'
+    name: 'backend-build'
+    paths:
+      - $PWD/backend/apis/.serverless/jngpaypal.zip
+  needs: ['test_lambda']
+  dependencies:
+    - test_lambda
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "master"'
+      changes:
+        - backend/apis/**/*
+  stage: build
+  environment:
+    name: production
+  script:
+    - *common_install
+    - npm run package

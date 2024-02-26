@@ -1,0 +1,1 @@
+export type WhichTemplate = [boughtPyl: boolean, boughtRb: boolean, boughtConsult: boolean];

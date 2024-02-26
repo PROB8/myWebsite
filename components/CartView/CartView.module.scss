@@ -1,0 +1,97 @@
+.imageContainer {
+  width: 185px;
+  height: 100%;
+}
+
+.cartItem,
+.buttonsWrapper {
+  margin: 0 0 50px;
+}
+
+.buttonsWrapper {
+  margin-bottom: 0;
+  width: 75%;
+  margin: auto;
+}
+
+.smallItemPreviewWrapper {
+  height: 200px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  .imageWrapper {
+    width: 200px;
+    height: 200px;
+    .imageContainer {
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+  }
+
+  .itemDescription {
+    position: relative;
+    max-width: 150px;
+    p {
+      margin: 5px 0px;
+    }
+  }
+}
+
+.cartHeight {
+  height: calc(100vh - 70px);
+}
+
+.cartWrapper {
+  padding: 10px;
+}
+
+.objectEnter {
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.8s ease-in-out,
+    visibility 0.8s ease-in-out;
+}
+
+.objectEnterActive {
+  opacity: 1;
+  visibility: visible;
+  margin: auto;
+  width: 75%;
+}
+
+.quantity {
+  position: absolute;
+  bottom: 0;
+  max-width: 100px;
+  margin: auto;
+  input {
+    max-width: 30%;
+    text-align: center;
+  }
+  button {
+    width: 25%;
+    border: unset;
+    border-radius: 4px;
+    font-size: 16px;
+    color: white;
+    padding: 0;
+    margin: 0 2px;
+    background-color: #bbc7cc;
+  }
+  button:active {
+    /* Change the color when the button is clicked */
+    background-color: #3e4243; /* Change to your desired color */
+  }
+}
+
+.width300Center {
+  width: 300px !important;
+  text-align: center;
+}
+
+.raiseBtns {
+  z-index: 99;
+  position: relative;
+}

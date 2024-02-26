@@ -1,0 +1,30 @@
+service: jngpaypal
+package:
+  individually: false
+plugins:
+  - serverless-webpack
+  - serverless-offline
+  - serverless-dotenv-plugin
+custom:
+  currentStage: ${opt:stage, self:provider.stage}
+  serverless-offline:
+    resourceRoutes: true
+    useSeparateProcesses: true
+    httpPort: 4000
+provider:
+  name: aws
+  runtime: nodejs18.x
+  stage: ${file(./js-helpers/set-stage.js):setStage}
+functions: ${file(./js-helpers/load-services.js):functions}
+resources:
+  Resources:
+    PaypalServiceProxyResource:
+      Type: AWS::ApiGateway::Resource
+      Properties:
+        ParentId:
+          Fn::GetAtt:
+            - ApiGatewayRestApi # our default Rest API logical ID
+            - RootResourceId
+        PathPart: '{proxy+}' # the endpoint in your API that is set as proxy
+        RestApiId:
+          Ref: ApiGatewayRestApi

@@ -1,0 +1,34 @@
+.modalWrapper {
+  z-index: 100;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #8a8a8aa8;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.container {
+  max-height: 300px;
+  max-width: 300px;
+  background-color: white;
+  position: relative;
+  padding: 10px;
+}
+
+.closeButtonOutterWrapper {
+  float: right;
+}
+
+.closeButton {
+  position: relative;
+  top: 0;
+  right: 0;
+  width: 30px;
+  height: 30px;
+}

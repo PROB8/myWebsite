@@ -16,6 +16,7 @@ declare global {
     interface Window {
         requestAnimFrame: any;
         cancelRequestAnimFrame: any;
+        paypalLoadScript: any
         particlesJS: {
             load: any;
         };

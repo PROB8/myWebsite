@@ -10,13 +10,21 @@
   margin-bottom: 0;
 }
 
-.sectionHeader {
+.sectionHeader,
+.sectionHeader2 {
   font-family: 'Open Sans', sans-serif;
   font-size: 1.6em;
   margin: 0 auto;
   width: 72%;
   border-bottom: 1px solid black;
   margin-bottom: 52px;
+}
+
+.sectionHeader2 {
+  width: 50%;
+  border-bottom: none;
+  margin: 0;
+  min-height: 38px;
 }
 
 .viewWrapper {
@@ -27,4 +35,21 @@
   margin: auto;
   padding: 10px;
   width: 80%;
+}
+
+.headerWrapper {
+  width: 75%;
+  display: flex;
+  justify-content: space-between;
+  margin: 0 auto 52px;
+  border-bottom: 1px solid black;
+}
+
+.alwaysCentered {
+  position: absolute; /* or 'fixed' if you want it to stay in place on scroll */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 200px; /* Set a specific width */
+  height: 100px; /* Set a specific height */
 }

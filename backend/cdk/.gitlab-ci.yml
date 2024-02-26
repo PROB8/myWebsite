@@ -1,0 +1,19 @@
+cache:
+  paths:
+    - backend/cdk/node_modules/
+
+test_cdk:
+  stage: test-cdk
+  image: node:20.11.1
+  needs: ['build_staging']
+  dependencies:
+    - build_staging
+  rules:
+    - if: '$CI_COMMIT_BRANCH != "master"'
+      changes:
+        - backend/cdk/**/*
+        # - backend/apis/**/* # ! trynna see if this will work
+  script:
+    - cd backend/cdk
+    - npm i
+    - npm run test

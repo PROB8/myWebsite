@@ -1,11 +1,11 @@
-import Footer from '@/components/Footer/Footer';
+import Footer from 'components/Footer/Footer';
 import '../globals.css';
-import ArticleTileView from '@/components/ArticleTileView/ArticleTileView';
+import ArticleTileView from 'components/ArticleTileView/ArticleTileView';
 
 export default function Blog(): JSX.Element {
   return (
     <>
-      <ArticleTileView />
+      <ArticleTileView sharedHeader />
       <Footer />
     </>
   );

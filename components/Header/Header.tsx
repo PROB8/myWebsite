@@ -1,8 +1,8 @@
 import Link from 'next/link';
-import Envelope from '../Icons/Envelope';
-import LinkedIn from '../Icons/LinkedIn';
-import Github from '../Icons/Github';
-import Bitcoin from '../Icons/Bitcoin';
+import Envelope from 'components/Icons/Envelope';
+import LinkedIn from 'components/Icons/LinkedIn';
+import Github from 'components/Icons/Github';
+import Bitcoin from 'components/Icons/Bitcoin';
 import styles from './Header.module.css';
 
 type HeaderProps = {
@@ -39,6 +39,11 @@ export default function Header(props: HeaderProps): JSX.Element {
               >
                 <Link href="#articles" className={styles.firstUlLink}>
                   myArticles
+                </Link>
+              </li>
+              <li id="shop-link">
+                <Link href="/shop" className={styles.firstUlLink}>
+                  shop
                 </Link>
               </li>
             </ul>

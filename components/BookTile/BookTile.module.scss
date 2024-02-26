@@ -1,0 +1,61 @@
+.tileWrapper {
+  width: 350px;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+  text-decoration: none;
+  color: initial;
+}
+
+.tileWrapper:hover {
+  cursor: pointer;
+}
+
+.title {
+  font-size: 16px;
+}
+
+.price {
+  text-align: right;
+  margin: 14 0px;
+}
+
+.imageContainer {
+  height: 300px;
+  width: 100%;
+  background-size: contain;
+}
+
+.titleBox {
+  flex: 1;
+  position: relative;
+}
+
+.infoWrapper {
+  margin-bottom: 0px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.lengthInMinutes,
+.publishedDate {
+  margin: 0;
+}
+
+.lengthInMinutes {
+  float: left;
+}
+.publishedDate {
+  float: right;
+}
+
+.pylcover {
+  background-size: cover;
+  background-image: url('../pictures/pyl-front-cover.jpg');
+}
+
+.rapidbackend {
+  background-size: cover;
+  background-image: url('../pictures/rbe-cover.jpg');
+}

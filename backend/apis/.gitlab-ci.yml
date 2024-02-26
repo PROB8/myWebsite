@@ -9,6 +9,10 @@ cache:
 test_lambda:
   stage: test
   image: node:20.11.1
+  rules:
+    - if: '$CI_COMMIT_BRANCH != "master"'
+      changes:
+        - backend/apis/**/*
   script:
     - *common_install
     - npm run test

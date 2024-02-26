@@ -6,47 +6,53 @@ cache:
   - cd backend/apis
   - npm i
 
-test-lambda:
+test_lambda:
   stage: test
   image: node:20.11.1
   rules:
-    -  if:
+    - if: '$CI_COMMIT_BRANCH == "master"'
       changes:
         - backend/apis/**/*
   script:
     - *common_install
     - npm run test
 
-build:staging:
+build_staging:
   artifacts:
-    expose_as: backend-build-staging
-    name: backend-build-staging
-    paths: [$PWD/backend/apis/.serverless/jngpaypal.zip]
-  needs: ['test-lambda']
+    expose_as: 'backend-build-staging'
+    name: 'backend-build-staging'
+    paths: 
+      - $PWD/backend/apis/.serverless/jngpaypal.zip
+  needs: ['test_lambda']
   dependencies:
     - test-lambda
   rules:
-    - if:
+    - if: '$CI_COMMIT_BRANCH == "staging"'
       changes:
         - backend/apis/**/*
   stage: build
+  environment:
+    name: staging
   script:
     - *common_install
     - npm run package:staging
 
 build:prod:
   artifacts:
-    expose_as: backend-build
-    name: backend-build
-    paths: [$PWD/backend/apis/.serverless/jngpaypal.zip]
+    expose_as: 'backend-build'
+    name: 'backend-build'
+    paths: 
+      - $PWD/backend/apis/.serverless/jngpaypal.zip
   needs: ['test-lambda']
   dependencies:
     - test-lambda
   rules:
-    - if:
+    - if: '$CI_COMMIT_BRANCH == "master"'
       changes:
         - backend/apis/**/*
   stage: build
+  environment:
+    name: production
   script:
     - *common_install
     - npm run package

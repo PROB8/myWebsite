@@ -1,3 +1,7 @@
+include:
+  - '/backend/apis/.gitlab-ci.yml'
+  - '/backend/cdk/.gitlab-ci.yml'
+
 image: node:20.11.1
 
 stages:
@@ -9,7 +13,7 @@ stages:
   - cd backend/cdk
   - npm i
   - npm i -g aws-cdk typescript ts-node
-  - aws sts get-aller-identity
+  - aws sts get-caller-identity
 
 .install-aws: &install-aws
   - apt update

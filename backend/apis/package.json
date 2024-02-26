@@ -4,7 +4,8 @@
   "description": "back-end resources",
   "main": "handler.ts",
   "scripts": {
-    "test": "jest --coverage",
+    "test": "jest",
+    "test:coverage": "jest --coverage",
     "test:dev": "jest --watchAll",
     "serve:local": "sls offline start --noPrependStageInUrl --reloadHandler",
     "start": "serverless offline",

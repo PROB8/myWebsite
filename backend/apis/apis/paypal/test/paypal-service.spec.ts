@@ -1,5 +1,4 @@
 import { APIGatewayEvent } from 'aws-lambda';
-import { Collection } from 'mongodb';
 
 import PaypalService from '../paypal-service';
 
@@ -22,12 +21,12 @@ describe('LambdaA service tests', () => {
 
   test('Should map request to method for singleton route: ', () => {
     const mockEvent = {
-      path: '/api/paypal/order',
+      path: '/api/jngpaypal/order',
       httpMethod: 'POST',
       body: JSON.stringify({}),
     } as APIGatewayEvent;
-    const mockCollection = {} as Collection;
-    const loadsService = new PaypalService(mockEvent, mockCollection);
+
+    const loadsService = new PaypalService(mockEvent);
     expect(loadsService.mapRequestRouteToMethod()).toBe('sendEmail');
   });
 });

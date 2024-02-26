@@ -1,0 +1,15 @@
+cache: 
+  paths:
+    - backend/apis/node_modules/
+
+test-lambda:
+  stage: test
+  image: node:20.11.1
+  rules:
+    - if:
+      changes:
+        - backend/apis/**/*
+  script:
+    - cd backend/apis
+    - npm i
+    - npm run test

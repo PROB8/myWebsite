@@ -18,7 +18,6 @@ describe('Base service tests', () => {
   beforeEach(() => {
     baseService = new BaseService<unknown>(
       event as unknown as APIGatewayProxyEvent,
-      {} as Collection,
       { GET: { happy: '/asdf' } } as RouteMap
     );
   });
@@ -84,6 +83,8 @@ describe('Base service tests', () => {
 
   it('Should have a header: ', async () => {
     const cookie = {
+      'Access-Control-Allow-Headers': '*',
+      'Access-Control-Allow-Methods': 'POST,OPTIONS',
       'Access-Control-Allow-Credentials': true,
       'set-cookie': 'mywonderful=cookie',
     };

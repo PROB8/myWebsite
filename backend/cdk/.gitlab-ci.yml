@@ -3,7 +3,7 @@ cache:
     - backend/cdk/node_modules/
 
 test_cdk:
-  stage: test
+  stage: test-cdk
   image: node:20.11.1
   dependencies:
     - build_staging

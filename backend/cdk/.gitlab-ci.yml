@@ -1,10 +1,11 @@
-cache: 
+cache:
   paths:
     - backend/cdk/node_modules/
 
 test_cdk:
   stage: test-cdk
   image: node:20.11.1
+  needs: ['build_staging']
   dependencies:
     - build_staging
   rules:

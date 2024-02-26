@@ -1,4 +1,4 @@
-cache: 
+cache:
   paths:
     - backend/apis/node_modules/
 
@@ -21,7 +21,7 @@ build_staging:
   artifacts:
     expose_as: 'backend-build-staging'
     name: 'backend-build-staging'
-    paths: 
+    paths:
       - $PWD/backend/apis/.serverless/jngpaypal.zip
   needs: ['test_lambda']
   dependencies:
@@ -51,7 +51,7 @@ build_prod:
   artifacts:
     expose_as: 'backend-build'
     name: 'backend-build'
-    paths: 
+    paths:
       - $PWD/backend/apis/.serverless/jngpaypal.zip
   needs: ['test_lambda']
   dependencies:

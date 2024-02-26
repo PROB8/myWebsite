@@ -5,8 +5,8 @@ include:
 image: node:20.11.1
 
 stages:
-  - build
   - test
+  - build
   - deploy
 
 .common_setup: &common_setup

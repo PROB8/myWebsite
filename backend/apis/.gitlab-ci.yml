@@ -37,7 +37,7 @@ build_staging:
     - *common_install
     - npm run package:staging
 
-build:prod:
+build_prod:
   artifacts:
     expose_as: 'backend-build'
     name: 'backend-build'

@@ -2,11 +2,13 @@ cache:
   paths:
     - backend/cdk/node_modules/
 
-test-cdk:
+test_cdk:
   stage: test
   image: node:20.11.1
+  dependencies:
+    - build_staging
   rules:
-    - if:
+    - if: '$CI_COMMIT_BRANCH == "staging"'
       changes:
         - backend/cdk/**/*
         - backend/apis/**/*

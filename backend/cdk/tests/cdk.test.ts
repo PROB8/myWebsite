@@ -8,7 +8,7 @@ describe('Test for constructs created', (): void => {
     beforeAll((): void => {
         const app = new App();
         process.env.NODE_ENV = 'staging'
-        process.env.ARTIFACT_PATH = '../../apis/.serverless/jngpaypal.zip';
+        process.env.ARTIFACT_PATH = '../../apis/.serverless/jngpaypal-staging.zip';
         stack = new BackendStack(app, 'BackendStackTest', { env:{account: '00000000', region: 'us-east-2'} })
     })
 

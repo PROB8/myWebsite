@@ -67,6 +67,16 @@ export default function CartVeiw(): JSX.Element {
 
   useEffect(() => {
     if (cart.length === 0) {
+      const dotsContainer = document.getElementById('dots-container');
+      if (dotsContainer) {
+         dotsContainer.style.visibility = 'hidden'
+      }
+      const buttonContainer = document.getElementById('paypal-button-container');
+      if (buttonContainer) {
+        buttonContainer.style.visibility = 'hidden';
+        buttonContainer.replaceChildren();
+      }
+      setWhichHeight(cartHeight);
       setShowLoadingDots(false);
       return;
     }
@@ -82,6 +92,7 @@ export default function CartVeiw(): JSX.Element {
         onError,
         onSuccess,
         clearCart,
+        cart
       }).then(() => {
         // * adjust cart height to show footer
         if (cart.length >= 2) {
@@ -116,11 +127,9 @@ export default function CartVeiw(): JSX.Element {
           );
         })}
       </div>
-      {showLoadingDots && (
-        <div className={alwaysCentered}>
-          <LoadingDots />
-        </div>
-      )}
+      <div id="dots-container" className={alwaysCentered}>
+        <LoadingDots />
+      </div>
       <div
         id="paypal-button-container"
         className={
@@ -139,7 +148,7 @@ export default function CartVeiw(): JSX.Element {
          *
          * *
          */}
-        {loadingModalIsOpen && <LoadingDots />}
+
         {!loadingModalIsOpen && <PaymentResponseMessage />}
       </Modal>
     </div>

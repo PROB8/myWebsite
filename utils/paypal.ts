@@ -21,16 +21,22 @@ type CartOptions = {
   purchaseUnits: PaypalCartItem[];
   clearCart: () => void;
   onError: (error: Record<string, unknown>) => void;
+  cart: any;
 };
 
 export default async function loadPaypal(
   options: CartOptions
 ): Promise<PayPalNamespace | null> {
   const buttonContainer = document.getElementById('paypal-button-container');
+  const dotsContainer = document.getElementById('dots-container');
+  if (dotsContainer) {
+    dotsContainer.style.visibility = 'visible'
+  }
   if (buttonContainer) {
+    buttonContainer.style.visibility = 'hidden';
     buttonContainer.replaceChildren();
   }
-  const { setShowLoadingDots, onError, onSuccess } = options;
+  const { setShowLoadingDots, onError, onSuccess, cart } = options;
   const buttonOptions = {
     style: {
       shape: 'rect',
@@ -71,11 +77,17 @@ export default async function loadPaypal(
     console.error('failed to load the PayPal JS SDK script', error);
   }
 
-  if (paypal != null && paypal.Buttons) {
+  if (paypal != null && paypal.Buttons && cart.length > 0) {
     try {
       await paypal
-        .Buttons(buttonOptions as PayPalButtonsComponentOptions)
-        .render('#paypal-button-container');
+      .Buttons(buttonOptions as PayPalButtonsComponentOptions)
+      .render('#paypal-button-container');
+      if (dotsContainer) {
+        dotsContainer.style.visibility = 'hidden'
+      }
+      if (buttonContainer) {
+        buttonContainer.style.visibility = 'visible';
+      }
       setShowLoadingDots(false); //? do this here so that after the buttons and cart items have fully loaded we show the cart
     } catch (error) {
       console.error(error);
